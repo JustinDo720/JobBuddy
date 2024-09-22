@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# JobBuddy Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Table of Contents
+1) [JobBuddy Description](#jobbuddy-description)
+1) [JobBuddy Project Checklist](#jobbuddy-project-checklist)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+# JobBuddy Description
 
-### `npm start`
+**JobBuddy** is a personal job tracking dashboard built using React. It helps job seekers efficiently manage and track their job search process. The app includes features like adding job applications, viewing detailed information, tracking upcoming interviews, and setting personal goals for daily tasks like applying for jobs, networking on LinkedIn, and coding practice.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The dashboard also includes:
+- A job application table with the ability to add, edit, and remove job entries.
+- Visual data representation using `Chart.js` or `Recharts` to show job application trends over time.
+- A "Goals" section to keep track of daily achievements and a "Upcoming Interviews" panel to display interview schedules.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The project is designed with React Router for seamless navigation and provides a responsive, user-friendly interface.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Technologies used:
+- React.js
+- React Router
+- Chart.js or Recharts
+- (Optional) Backend integration with Django REST Framework
 
-### `npm run build`
+--- 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# JobBuddy Project Checklist
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Pages
+- [ ] Create a Home page using React Router
+  - [ ] Set up routes for:
+    - [ ] Home Page
+    - [ ] Login/Register Page
+    - [ ] Resources Page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Middle Section (Job Table)
+- [ ] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
+- [ ] Insert dummy data to check the table rendering
+- [ ] Make the company name **clickable**
+  - [ ] When the company name is clicked, display additional details in:
+    - [ ] A separate component with detailed view
+    - [ ] OR a modal card showing information such as:
+      - [ ] Job description
+      - [ ] Salary
+      - [ ] Other relevant details
 
-### `npm run eject`
+## Add/Edit/Remove Jobs
+- [ ] Build an "Add Job" button (temporarily in Navbar)
+  - [ ] Add functionality to insert a new job into the table
+- [ ] Add "Edit" and "Remove" buttons to each job in the table
+  - [ ] "Edit" button should trigger:
+    - [ ] A modal to update job details
+  - [ ] "Remove" button should remove the job entry from the table
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Left Panel (Graph)
+- [ ] Build the left panel to visualize data using `Chart.js` or `Recharts`
+  - [ ] Show total positions applied each month
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Right Panel (Upcoming Interviews & Goals)
+- [ ] Build the "Upcoming Interviews" panel to display upcoming interview dates and times
+- [ ] Add a "Goals" feature to set and track personal goals, such as:
+  - [ ] Apply for 3 jobs a day
+  - [ ] Connect with 2 people on LinkedIn
+  - [ ] Daily coding routine
+  - [ ] Add checkboxes to mark off completed goals
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Suggestions & Additional Tasks
 
-## Learn More
+1. **Authentication**:
+   - [ ] Implement user authentication (Login/Register) using Firebase or JWT (with Django).
+   - [ ] Store user-specific job data in the database.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. **Persistent Data**:
+   - [ ] Connect the table and forms to a backend (Django) to store jobs in a database.
+   - [ ] Ensure the data persists after refreshing the page.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. **Responsive Design**:
+   - [ ] Make the layout responsive for mobile and tablet views.
 
-### Code Splitting
+4. **Notifications**:
+   - [ ] Implement reminders or notifications for upcoming interviews and deadlines.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+5. **Filter/Search**:
+   - [ ] Add a filter option to search for jobs based on status (Applied, Interviewing, etc.).
 
-### Analyzing the Bundle Size
+6. **API Integration**:
+   - [ ] (Optional) Integrate LinkedIn or Glassdoor APIs to pull in job-related data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+7. **Testing**:
+   - [ ] Write unit tests for key components and features using `Jest` or `React Testing Library`.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
