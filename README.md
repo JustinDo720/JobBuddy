@@ -1,4 +1,4 @@
-# JobBuddy Project
+# JobBuddy React Project
 
 # Table of Contents
 1) [JobBuddy Description](#jobbuddy-description)
