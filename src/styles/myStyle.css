@@ -1,0 +1,12 @@
+body {
+    background-color: #F7F3F2 !important; /* Set your overall page background color */
+}
+
+.navbar-custom {
+    background-color: #333; /* Custom navbar color */
+  }
+  
+  .my-title {
+    color: #E99F56; /* Custom title color */
+    font-size: 2rem;
+  }
