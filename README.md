@@ -47,8 +47,9 @@ Technologies used:
     - [x] Resources Page
 
 ## Middle Section (Job Table)
-- [ ] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
-- [ ] Insert dummy data to check the table rendering
+- [x] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
+- [x] Insert dummy data to check the table rendering
+- [x] Add a Search Functionality 
 - [ ] Make the company name **clickable**
   - [ ] When the company name is clicked, display additional details in:
     - [ ] A separate component with detailed view
