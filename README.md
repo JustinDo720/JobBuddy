@@ -29,16 +29,27 @@ Technologies used:
 
 # JobBuddy Project Checklist
 
+## Adding our Styling Kit
+~~-[x] Add Tailwind CSS to create **Navbars**, **Modals** and **Tables**~~
+
+~~-[ ](Optional) Tailwind templates?? If exists~~
+
+- [x] Add  Bootstrap to create **Navbars**, **Modals** and **Tables**
+
+## Navbar 
+- [x] Set up our Navbar for our router 
+
 ## Pages
-- [ ] Create a Home page using React Router
-  - [ ] Set up routes for:
-    - [ ] Home Page
-    - [ ] Login/Register Page
-    - [ ] Resources Page
+- [x] Create a Home page using React Router
+  - [x] Set up routes for:
+    - [x] Home Page
+    - [x] Login/Register Page
+    - [x] Resources Page
 
 ## Middle Section (Job Table)
-- [ ] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
-- [ ] Insert dummy data to check the table rendering
+- [x] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
+- [x] Insert dummy data to check the table rendering
+- [x] Add a Search Functionality 
 - [ ] Make the company name **clickable**
   - [ ] When the company name is clicked, display additional details in:
     - [ ] A separate component with detailed view
@@ -93,5 +104,8 @@ Technologies used:
 
 7. **Testing**:
    - [ ] Write unit tests for key components and features using `Jest` or `React Testing Library`.
+
+8. **Dynamic Resources**:
+  - [ ] Users can add their own resources based on **THEIR** topic but we have defaults
 
 ---
