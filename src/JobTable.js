@@ -1,9 +1,11 @@
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
+
 
 export default function JobTable(){
 
@@ -53,10 +55,15 @@ export default function JobTable(){
         searchCompanyName(e.target.value)
     }
 
+    const clearFields = (e) => {
+        searchJobName('')
+        searchCompanyName('')
+    }
+
     return(
         <>
         <div className='container' style={{ padding: '20px', marginTop: '20px', borderRadius: '6px', backgroundColor: 'white'}}>
-            <InputGroup size="lg" style= {{ paddingBottom: '20px', width: '75%', margin: '0 auto'}} >
+            <InputGroup size="lg" style= {{ paddingBottom: '20px', width: '85%', margin: '0 auto'}} >
                 <InputGroup.Text id="inputGroup-sizing-lg" style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }} >
                     <FontAwesomeIcon icon={faMagnifyingGlass} /> 
                 </InputGroup.Text>
@@ -64,7 +71,7 @@ export default function JobTable(){
                 aria-label="Job Name"
                 aria-describedby="inputGroup-sizing-sm"
                 style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }}
-                placeholder='Search Job Name'
+                placeholder='Search Job Name...'
                 onChange= { searchJob }
                 value= { job_name }
                 />
@@ -72,10 +79,13 @@ export default function JobTable(){
                 aria-label="Company Name"
                 aria-describedby="inputGroup-sizing-sm"
                 style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }}
-                placeholder='Search Company Name'
+                placeholder='Search Company Name...'
                 onChange= { searchCompany }
                 value= { company_name }
                 />
+                <Button variant="outline-danger" style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }} onClick={ clearFields }>
+                    Clear
+                </Button>
             </InputGroup>
             <Table striped bordered hover>
                 <thead>
@@ -95,14 +105,21 @@ export default function JobTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    { jobs.filter( filteredJob => filteredJob.job_name.toLowerCase().includes(job_name.toLowerCase()) &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).map((job, index)=>(
+                    { jobs.filter( filteredJob => filteredJob.job_name.toLowerCase().includes(job_name.toLowerCase()) 
+                    &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).length > 0 ? (
+                        jobs.filter( filteredJob => filteredJob.job_name.toLowerCase().includes(job_name.toLowerCase()) 
+                            &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).map((job, index)=>(
                         <tr key={index}>
                             <td>{job.job_name}</td>
                             <td>{job.company_name}</td>
                             <td>{job.salary}</td>
                             <td>{job.status}</td>
                         </tr>
-                    ))}
+                    ))) : (
+                        <tr>
+                            <td colSpan="4" style={{ textAlign: 'center' }}>Sorry, search not found...</td>
+                        </tr>
+                    )}
                 </tbody>
             </Table>
         </div>
