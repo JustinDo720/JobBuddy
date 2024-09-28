@@ -50,19 +50,19 @@ Technologies used:
 - [x] Build a table with headers: `Company`, `Position`, `Date Applied`, `Status`
 - [x] Insert dummy data to check the table rendering
 - [x] Add a Search Functionality 
-- [ ] Make the company name **clickable**
-  - [ ] When the company name is clicked, display additional details in:
+- [x] Make the company name **clickable**
+  - [x] When the company name is clicked, display additional details in:
     - [ ] A separate component with detailed view
-    - [ ] OR a modal card showing information such as:
-      - [ ] Job description
-      - [ ] Salary
-      - [ ] Other relevant details
+    - [x] OR a modal card showing information such as:
+      - [x] Job description
+      - [x] Salary
+      - [x] Other relevant details
 
 ## Add/Edit/Remove Jobs
 - [ ] Build an "Add Job" button (temporarily in Navbar)
   - [ ] Add functionality to insert a new job into the table
 - [ ] Add "Edit" and "Remove" buttons to each job in the table
-  - [ ] "Edit" button should trigger:
+  - [x] "Edit" button should trigger:
     - [ ] A modal to update job details
   - [ ] "Remove" button should remove the job entry from the table
 

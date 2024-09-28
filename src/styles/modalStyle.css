@@ -1,0 +1,28 @@
+.modal-content {
+    background-color: #FFFFFF; /* Clean white background */
+  }
+  
+.modal-header {
+    background-color: rgb(33, 36, 41);
+    color: #E99F56; /* Title color matching navbar */
+    border-bottom: none; /* Clean look */
+}
+
+.modal-body {
+    color: #333; /* Dark text color for readability */
+    background-color: #F7F3F2;
+}
+
+.modal-footer button {
+    background-color: #E99F56; /* Button matches title color */
+    color: #FFFFFF;
+}
+
+.modal-footer button:hover {
+    background-color: #E07D30; /* Darker for hover effect */
+}
+
+.form-check-input:checked {
+    background-color: #E07D30 !important;
+    border-color: #E07D30 !important;
+}
