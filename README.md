@@ -59,8 +59,8 @@ Technologies used:
       - [x] Other relevant details
 
 ## Add/Edit/Remove Jobs
-- [ ] Build an "Add Job" button (temporarily in Navbar)
-  - [ ] Add functionality to insert a new job into the table
+- [x] Build an "Add Job" button (temporarily in Navbar)
+  - [x] Add functionality to insert a new job into the table
 - [ ] Add "Edit" and "Remove" buttons to each job in the table
   - [x] "Edit" button should trigger:
     - [ ] A modal to update job details
