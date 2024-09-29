@@ -2,10 +2,16 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faArrowUpRightFromSquare, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import JobTableDetails from './JobTableDetails';
+import JobTableAddJob from './JobTableAddJob'
 
 
 export default function JobTable(){
@@ -302,7 +308,7 @@ export default function JobTable(){
         searchCompanyName('')
     }
 
-    // Modal Control
+    // Details Modal Control
     const [show, setShow] = useState(false);
     const [chosen_job, setChosenJob] = useState({})
 
@@ -321,6 +327,20 @@ export default function JobTable(){
 
     // Handle toggle change
     const handleSwitchChange = () => setIsEditMode(!isEditMode);
+
+    // Status Filter
+    const [showStat, setShowStat] = useState(false);
+    const target = useRef(null);
+
+    // Add Job Modal Control
+    const [showAddJob, setShowAddJob] = useState(false);
+
+    const showAddJobModal = () => {
+        setShowAddJob(!showAddJob)
+    }
+    const closeAddJobModal = () => {
+        setShowAddJob(false)
+    };
 
     return(
         <>
@@ -351,28 +371,33 @@ export default function JobTable(){
                 </Button>
             </InputGroup>
             {/* Controls */}
-            <div className="d-flex align-items-center justify-content-center" style={{ padding: '30px'}}>
-                {/* Adding Job*/}
-                <Button variant='outline-success' style={{ marginRight: '20px'}}>
-                    <FontAwesomeIcon icon={faPlus} /> Add Job 
-                </Button>
-
-                {/* Bootstrap Switch */}
-                <Form.Check
-                    type="switch"
-                    id="custom-switch"
-                    label="Edit Mode"
-                    checked={isEditMode}
-                    onChange={handleSwitchChange}
-                    style={{ fontSize: '20px'}}
-                />
-            </div>
+            <Container style={{padding: '20px'}}>
+                <Row className='justify-content-md-center'>
+                    <Col xs lg='3' style={{textAlign: 'center'}}>
+                        {/* Bootstrap Switch */}
+                        <Form.Check
+                            type="switch"
+                            id="custom-switch"
+                            label="Edit Mode"
+                            checked={isEditMode}
+                            onChange={handleSwitchChange}
+                            style={{ fontSize: '20px', marginRight: '20px'}}
+                        />
+                    </Col>
+                    <Col xs lg='3' style={{textAlign: 'center'}} className="d-grid gap-2">
+                        {/* Adding Job*/}
+                        <Button variant='outline-success' onClick={showAddJobModal}>
+                            <FontAwesomeIcon icon={faPlus} /> Add Job 
+                        </Button>
+                    </Col>                  
+                </Row>
+            </Container>
 
             {/* Job Display Table */}
             <div className='table-responsive'>
             <Table striped bordered hover>
                 <thead>
-                    <tr>
+                    <tr style={{textAlign : 'center'}}>
                         <th>
                             Job Name
                         </th>
@@ -382,8 +407,57 @@ export default function JobTable(){
                         <th>
                             Salary
                         </th>
-                        <th>
-                            Status
+                        <th style={{ verticalAlignment: 'middle'}}>
+                            <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ marginTop:'12px'}}>
+                                    Status
+                                </span>
+                                
+                                <Button 
+                                    variant="secondary" 
+                                    style={{ marginLeft: '10px', verticalAlign: 'middle', padding:'2px', marginTop:'10px' }} 
+                                    size='sm' 
+                                    ref={target} 
+                                    onClick={() => setShowStat(!showStat)}
+                                >
+                                    Filter
+                                </Button>
+                            </div>
+                            <Overlay target={target.current} show={showStat} placement="bottom">
+                            {(props) => (
+                                <Tooltip id="filter-checkbox" {...props}>
+                                    <Form>
+                                        <Form.Check
+                                            inline
+                                            label="Applied"
+                                            name="group1"
+                                            type='checkbox'
+                                            id='inline-1'
+                                        />
+                                        <Form.Check
+                                            inline
+                                            label="Interview"
+                                            name="group1"
+                                            type='checkbox'
+                                            id='inline-2'
+                                        />
+                                        <Form.Check
+                                            inline
+                                            label="Rejected"
+                                            type='checkbox'
+                                            id='inline-3'
+                                        />
+                                        <Form.Check
+                                            inline
+                                            label="Offered"
+                                            type='checkbox'
+                                            id='inline-4'
+                                        />
+                                    </Form>
+                                </Tooltip>
+                            )}
+                            </Overlay>
+
                         </th>
                         <th>
                             Actions
@@ -425,6 +499,8 @@ export default function JobTable(){
 
             {/* Job Details Modal */}
             <JobTableDetails show={ show } handleClose={ handleClose } job_details={ chosen_job }></JobTableDetails>
+            {/* Add Job Modal */}
+            <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal }></JobTableAddJob>
         </div>
         </>
     )
