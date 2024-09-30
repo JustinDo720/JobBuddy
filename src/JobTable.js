@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faArrowUpRightFromSquare, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faArrowUpRightFromSquare, faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
 import JobTableDetails from './JobTableDetails';
 import JobTableAddJob from './JobTableAddJob'
@@ -328,9 +328,42 @@ export default function JobTable(){
     // Handle toggle change
     const handleSwitchChange = () => setIsEditMode(!isEditMode);
 
+    // Editing Modal
+
+    // Removing Modal
+
     // Status Filter
     const [showStat, setShowStat] = useState(false);
     const target = useRef(null);
+
+    const [checkedFilter, setCheckedFilter] =  useState({
+        applied:'',
+        interview: '',
+        rejected: '',
+        offer: '',
+    })
+    
+    // We cannot use checkedFilter because it's not an array we could loop over with .map() function and so fourth 
+    const checkedFilterArray = Object.keys(checkedFilter).filter(key=>checkedFilter[key]) // Checking if the Key has a value. Which allows us to filter based on this array
+
+    const checkedStatus = (e) => {
+        const {name, value, checked} = e.target
+
+        // User checks a box
+        if (checked){
+            setCheckedFilter({
+                ...checkedFilter,
+                [name]: value
+            })
+        } else {
+            // User unchecks a box (not checked)
+            setCheckedFilter({
+                ...checkedFilter,
+                [name]: ''
+            })
+        }
+    
+    }
 
     // Add Job Modal Control
     const [showAddJob, setShowAddJob] = useState(false);
@@ -430,28 +463,42 @@ export default function JobTable(){
                                         <Form.Check
                                             inline
                                             label="Applied"
-                                            name="group1"
+                                            name="applied"
+                                            value='applied'
+                                            onChange={checkedStatus}
                                             type='checkbox'
                                             id='inline-1'
+                                            checked={checkedFilter.applied === 'applied'}
                                         />
                                         <Form.Check
                                             inline
                                             label="Interview"
-                                            name="group1"
+                                            name="interview"
+                                            value='interview'
+                                            onChange={checkedStatus}
                                             type='checkbox'
                                             id='inline-2'
+                                            checked={checkedFilter.interview === 'interview'}
                                         />
                                         <Form.Check
                                             inline
                                             label="Rejected"
+                                            name='rejected'
+                                            value='rejected'
+                                            onChange={checkedStatus}
                                             type='checkbox'
                                             id='inline-3'
+                                            checked={checkedFilter.rejected === 'rejected'}
                                         />
                                         <Form.Check
                                             inline
-                                            label="Offered"
+                                            label="Offer"
+                                            name='offer'
+                                            value='offer'
+                                            onChange={checkedStatus}
                                             type='checkbox'
                                             id='inline-4'
+                                            checked={checkedFilter.offer === 'offer'}
                                         />
                                     </Form>
                                 </Tooltip>
@@ -468,7 +515,11 @@ export default function JobTable(){
                     { jobs.filter( filteredJob => filteredJob.job_name.toLowerCase().includes(job_name.toLowerCase()) 
                     &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).length > 0 ? (
                         jobs.filter( filteredJob => filteredJob.job_name.toLowerCase().includes(job_name.toLowerCase()) 
-                            &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).map((job, index)=>(
+                            &&  filteredJob.company_name.toLowerCase().includes(company_name.toLowerCase())).filter(job=>
+                                checkedFilterArray.length > 0 ? 
+                                checkedFilterArray.some(stat => job.status.toLowerCase() === stat.toLowerCase())
+                                : true // We set true to include all jobs if the array is unchecked 
+                            ).map((job, index)=>(
                         <tr key={index}>
                             <td>
                             <a href= { `#${job.job_name.replace(/\s+/g, '-').toLowerCase()}/#${job.company_name.replace(/\s+/g, '-').toLowerCase()}` } 
@@ -486,6 +537,17 @@ export default function JobTable(){
                                         <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> 
                                     </Button>
                                 </a>:<></>}
+                                {isEditMode? (
+                                    <>
+                                        {/* If we have multiple elements we need to palce them inside a single parent element*/}
+                                        <Button size="sm" variant="outline-warning" style={{marginLeft: '10px'}}>
+                                            <FontAwesomeIcon icon={faEdit} />
+                                        </Button>
+                                        <Button size="sm" variant="outline-danger" style={{marginLeft: '10px'}}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </Button>
+                                    </>
+                                ) : <></>}
                             </td>
                         </tr>
                     ))) : (
