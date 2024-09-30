@@ -12,6 +12,8 @@ import { faMagnifyingGlass, faArrowUpRightFromSquare, faPlus, faEdit, faTrash } 
 import { useEffect, useState, useRef } from 'react'
 import JobTableDetails from './JobTableDetails';
 import JobTableAddJob from './JobTableAddJob'
+import JobTableEditJob from './JobTableEditJob';
+import JobTableDeleteJob from './JobTableDeleteJob';
 
 
 export default function JobTable(){
@@ -141,6 +143,8 @@ export default function JobTable(){
             status: 'Interview', 
             link: 'https://sony.com/careers/game-developer', 
             location: 'San Mateo, CA', 
+            city: 'San Mateo',
+            state: 'California',
             job_summary: 'Design and develop video games.' 
         },
         { 
@@ -275,7 +279,7 @@ export default function JobTable(){
             salary: '$105,000', 
             status: 'Offer', 
             link: 'https://sony.com/careers/2d-artist', 
-            location: 'San Mateo, CA', 
+            location: 'San Mateo, CA',
             job_summary: 'Create 2D graphics and artwork for games.' 
         },
         { 
@@ -329,8 +333,25 @@ export default function JobTable(){
     const handleSwitchChange = () => setIsEditMode(!isEditMode);
 
     // Editing Modal
+    const [showEditing, setShowEditing] = useState(false)
+    const [chosenEditingJob, setChosenEditingJob] = useState({})
+
+    const changeShowEditing = (job_object)=>{
+        setChosenEditingJob(job_object)
+        setShowEditing(!showEditing)
+    }
+    const closeShowEditing = ()=>setShowEditing(false)
 
     // Removing Modal
+    const [showDeleting, setShowDeleting] = useState(false)
+    const [chosenDeletingJob, setChosenDeletingJob] = useState({})
+
+    const showDeletingModal = (job_object)=>{
+        setChosenDeletingJob(job_object)
+        setShowDeleting(!showDeleting)
+    }
+
+    const closeShowDeleting = () => setShowDeleting(false)
 
     // Status Filter
     const [showStat, setShowStat] = useState(false);
@@ -540,10 +561,10 @@ export default function JobTable(){
                                 {isEditMode? (
                                     <>
                                         {/* If we have multiple elements we need to palce them inside a single parent element*/}
-                                        <Button size="sm" variant="outline-warning" style={{marginLeft: '10px'}}>
+                                        <Button size="sm" variant="outline-warning" onClick={()=>changeShowEditing(job)} style={{marginLeft: '10px'}}>
                                             <FontAwesomeIcon icon={faEdit} />
                                         </Button>
-                                        <Button size="sm" variant="outline-danger" style={{marginLeft: '10px'}}>
+                                        <Button size="sm" variant="outline-danger" onClick={()=>showDeletingModal(job)} style={{marginLeft: '10px'}}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </Button>
                                     </>
@@ -563,6 +584,10 @@ export default function JobTable(){
             <JobTableDetails show={ show } handleClose={ handleClose } job_details={ chosen_job }></JobTableDetails>
             {/* Add Job Modal */}
             <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal }></JobTableAddJob>
+            {/* Edit Job Modal */}
+            <JobTableEditJob show={ showEditing } handleClose= { closeShowEditing } job_object={ chosenEditingJob }></JobTableEditJob>
+            {/* Delete Job Modal */}
+            <JobTableDeleteJob show= { showDeleting } handleClose={closeShowDeleting} job_object={ chosenDeletingJob }></JobTableDeleteJob>
         </div>
         </>
     )

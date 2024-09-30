@@ -1,6 +1,8 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUpRightFromSquare  } from '@fortawesome/free-solid-svg-icons'
 import './styles/modalStyle.css'
@@ -29,12 +31,22 @@ function JobTableDetails(props){
                centered
                >
             <Modal.Header>
-            <Modal.Title style={{fontSize: '30px'}}>
-                { job_details.job_name } @ { job_details.company_name }
-            </Modal.Title>
-            <Button>
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> 
-            </Button>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Modal.Title style={{fontSize: '30px'}}>
+                                { job_details.job_name } @ { job_details.company_name }
+                            </Modal.Title>
+                        </Col>
+                        <Col>
+                            <a href={job_details.link} target='_blank'> 
+                                <Button >
+                                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> 
+                                </Button>
+                            </a>
+                        </Col>
+                    </Row>                
+                </Container>
             </Modal.Header>
             <Modal.Body style={{ fontSize: '20px' }}>
                 <Container style={{padding: '10px'}}>
