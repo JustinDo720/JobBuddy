@@ -110,3 +110,32 @@ Technologies used:
   - [ ] Users can add their own resources based on **THEIR** topic but we have defaults
 
 ---
+
+## Tasks After Creating Backend
+
+1. **User Login**
+  - [ ] Creating the User Login and Register Form 
+  - [ ] Use your django Djoser link to create our User 
+  - [ ] Ensure an Email sign in  + Confirmation. Additionally make sure to display username if signed in 
+  - [ ] Deal with resend confirmation, update username, update password...
+
+2. **Display Jobs on Home page**
+  - [ ] Jobs must be of the User
+  - [ ] If no job present display a message 
+
+3. **Banners**
+  - [ ] Upon a user finished action display a banner/alert 
+    - Posting, Editing, Removing etc
+
+4. **Adding Jobs**
+  - [ ] Grab the Status and State options to update our form
+  - [ ] Posting should now use our RESTAPI to post data to a specific User 
+
+5. **Editing and Deleting**
+  - [ ] Ensure these HTTP methods follow our backend 
+
+6. **Images**
+  - [ ] Backend Storage isn't fully completed yet; however, we could add that to our form field
+  - [ ] Add a place where we could View those Images (Perhaps a Modal Slideshow)
+
+
