@@ -113,6 +113,9 @@ Technologies used:
 
 ## Tasks After Creating Backend
 
+We need to make sure we hook up **redux** for state management. This allows us to make a **store** that stores our api url.
+- `npm install redux react-redux`
+
 1. **User Login**
   - [ ] Creating the User Login and Register Form 
   - [ ] Use your django Djoser link to create our User 
