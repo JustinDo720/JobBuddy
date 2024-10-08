@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-
-
-import counterReducer from './Counter/counter.reducer';
+import { backendApiReducer } from './BaseUrl/base_url_reducer'
 
 
 const rootReducer = combineReducers({
 
-    counter: counterReducer,
+    api_url: backendApiReducer,
 
 });
 

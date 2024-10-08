@@ -15,284 +15,293 @@ import JobTableAddJob from './JobTableAddJob'
 import JobTableEditJob from './JobTableEditJob';
 import JobTableDeleteJob from './JobTableDeleteJob';
 import axios from 'axios'
-
+import { useSelector } from 'react-redux'
 
 export default function JobTable(){
+    
 
-    const [jobs, setJobs] = useState([
-        { 
-            job_name: 'Software Engineer', 
-            company_name: 'Google', 
-            salary: '', 
-            status: 'Applied', 
-            link: 'https://google.com/careers/software-engineer', 
-            location: 'Mountain View, CA', 
-            job_summary: 'Develop and maintain software applications.' 
-        },
-        { 
-            job_name: 'Data Analyst', 
-            company_name: 'Facebook', 
-            salary: '$90,000', 
-            status: 'Interview', 
-            link: 'https://facebook.com/careers/data-analyst', 
-            location: 'Menlo Park, CA', 
-            job_summary: '' 
-        },
-        { 
-            job_name: 'Frontend Developer', 
-            company_name: 'Amazon', 
-            salary: '$110,000', 
-            status: 'Rejected', 
-            link: 'https://amazon.com/careers/frontend-developer', 
-            location: 'Seattle, WA', 
-            job_summary: 'Build user interfaces for web applications.' 
-        },
-        { 
-            job_name: 'Backend Developer', 
-            company_name: 'Netflix', 
-            salary: '$125,000', 
-            status: 'Offer', 
-            link: 'https://netflix.com/careers/backend-developer', 
-            location: '', 
-            job_summary: 'Develop server-side logic and databases.' 
-        },
-        { 
-            job_name: 'DevOps Engineer', 
-            company_name: 'Microsoft', 
-            salary: '$115,000', 
-            status: 'Applied', 
-            link: 'https://microsoft.com/careers/devops-engineer', 
-            location: 'Redmond, WA', 
-            job_summary: 'Manage and improve deployment pipelines.' 
-        },
-        { 
-            job_name: 'Project Manager', 
-            company_name: 'Apple', 
-            salary: '$130,000', 
-            status: 'Interview', 
-            link: 'https://apple.com/careers/project-manager', 
-            location: 'Cupertino, CA', 
-            job_summary: '' 
-        },
-        { 
-            job_name: 'QA Engineer', 
-            company_name: 'Uber', 
-            salary: '$100,000', 
-            status: 'Rejected', 
-            link: 'https://uber.com/careers/qa-engineer', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Ensure the quality of software through testing.' 
-        },
-        { 
-            job_name: 'Mobile Developer', 
-            company_name: 'Airbnb', 
-            salary: '$105,000', 
-            status: 'Offer', 
-            link: 'https://airbnb.com/careers/mobile-developer', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Develop mobile applications for iOS and Android.' 
-        },
-        { 
-            job_name: 'Product Manager', 
-            company_name: 'Tesla', 
-            salary: '$140,000', 
-            status: 'Applied', 
-            link: 'https://tesla.com/careers/product-manager', 
-            location: 'Palo Alto, CA', 
-            job_summary: 'Define product vision and strategy.' 
-        },
-        { 
-            job_name: 'System Architect', 
-            company_name: 'IBM', 
-            salary: '$150,000', 
-            status: 'Interview', 
-            link: 'https://ibm.com/careers/system-architect', 
-            location: '', 
-            job_summary: 'Design complex IT systems for business solutions.' 
-        },
-        { 
-            job_name: 'UX Designer', 
-            company_name: 'Spotify', 
-            salary: '$95,000', 
-            status: 'Offer', 
-            link: 'https://spotify.com/careers/ux-designer', 
-            location: 'New York, NY', 
-            job_summary: 'Create engaging and user-friendly designs.' 
-        },
-        { 
-            job_name: 'Security Analyst', 
-            company_name: 'Twitter', 
-            salary: '$110,000', 
-            status: 'Rejected', 
-            link: 'https://twitter.com/careers/security-analyst', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Protect systems and data from security threats.' 
-        },
-        { 
-            job_name: 'Cloud Engineer', 
-            company_name: 'Oracle', 
-            salary: '', 
-            status: 'Applied', 
-            link: 'https://oracle.com/careers/cloud-engineer', 
-            location: 'Austin, TX', 
-            job_summary: '' 
-        },
-        { 
-            job_name: 'Game Developer', 
-            company_name: 'Sony', 
-            salary: '$110,000', 
-            status: 'Interview', 
-            link: 'https://sony.com/careers/game-developer', 
-            location: 'San Mateo, CA', 
-            city: 'San Mateo',
-            state: 'California',
-            job_summary: 'Design and develop video games.' 
-        },
-        { 
-            job_name: 'AI Engineer', 
-            company_name: 'OpenAI', 
-            salary: '$150,000', 
-            status: 'Offer', 
-            link: 'https://openai.com/careers/ai-engineer', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Create AI models and solutions.' 
-        },
-        { 
-            job_name: 'Data Scientist', 
-            company_name: 'Google', 
-            salary: '$125,000', 
-            status: 'Interview', 
-            link: 'https://google.com/careers/data-scientist', 
-            location: 'Mountain View, CA', 
-            job_summary: 'Extract insights from data using statistical methods.' 
-        },
-        { 
-            job_name: 'Product Analyst', 
-            company_name: 'Facebook', 
-            salary: '$95,000', 
-            status: 'Applied', 
-            link: 'https://facebook.com/careers/product-analyst', 
-            location: 'Menlo Park, CA', 
-            job_summary: 'Analyze product performance and market trends.' 
-        },
-        { 
-            job_name: 'Full Stack Developer', 
-            company_name: 'Amazon', 
-            salary: '$115,000', 
-            status: 'Offer', 
-            link: 'https://amazon.com/careers/full-stack-developer', 
-            location: 'Seattle, WA', 
-            job_summary: 'Develop both client-side and server-side applications.' 
-        },
-        { 
-            job_name: 'Software Development Manager', 
-            company_name: 'Netflix', 
-            salary: '$135,000', 
-            status: 'Interview', 
-            link: 'https://netflix.com/careers/software-development-manager', 
-            location: 'Los Gatos, CA', 
-            job_summary: 'Manage software development teams and projects.' 
-        },
-        { 
-            job_name: 'Cloud Architect', 
-            company_name: 'Microsoft', 
-            salary: '$130,000', 
-            status: 'Applied', 
-            link: 'https://microsoft.com/careers/cloud-architect', 
-            location: 'Redmond, WA', 
-            job_summary: 'Design cloud-based solutions and architectures.' 
-        },
-        { 
-            job_name: 'Scrum Master', 
-            company_name: 'Apple', 
-            salary: '$140,000', 
-            status: 'Rejected', 
-            link: 'https://apple.com/careers/scrum-master', 
-            location: 'Cupertino, CA', 
-            job_summary: 'Facilitate Scrum processes and practices.' 
-        },
-        { 
-            job_name: 'Automation Tester', 
-            company_name: 'Uber', 
-            salary: '$105,000', 
-            status: 'Offer', 
-            link: 'https://uber.com/careers/automation-tester', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Automate testing for software applications.' 
-        },
-        { 
-            job_name: 'UI Developer', 
-            company_name: 'Airbnb', 
-            salary: '$100,000', 
-            status: 'Applied', 
-            link: 'https://airbnb.com/careers/ui-developer', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Develop user interfaces for web and mobile applications.' 
-        },
-        { 
-            job_name: 'Marketing Manager', 
-            company_name: 'Tesla', 
-            salary: '$150,000', 
-            status: 'Interview', 
-            link: '', 
-            location: 'Palo Alto, CA', 
-            job_summary: 'Manage marketing campaigns and strategies.' 
-        },
-        { 
-            job_name: 'Network Engineer', 
-            company_name: 'IBM', 
-            salary: '$120,000', 
-            status: 'Offer', 
-            link: 'https://ibm.com/careers/network-engineer', 
-            location: 'Armonk, NY', 
-            job_summary: 'Design and implement network solutions.' 
-        },
-        { 
-            job_name: 'Data Engineer', 
-            company_name: 'Spotify', 
-            salary: '$110,000', 
-            status: 'Applied', 
-            link: 'https://spotify.com/careers/data-engineer', 
-            location: 'New York, NY', 
-            job_summary: 'Build data pipelines and architecture.' 
-        },
-        { 
-            job_name: 'Incident Response Specialist', 
-            company_name: 'Twitter', 
-            salary: '$115,000', 
-            status: 'Rejected', 
-            link: '', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Respond to security incidents and mitigate risks.' 
-        },
-        { 
-            job_name: 'DevSecOps Engineer', 
-            company_name: 'Oracle', 
-            salary: '$140,000', 
-            status: 'Interview', 
-            link: 'https://oracle.com/careers/devsecops-engineer', 
-            location: 'Austin, TX', 
-            job_summary: 'Integrate security practices into DevOps processes.' 
-        },
-        { 
-            job_name: '2D Artist', 
-            company_name: 'Sony', 
-            salary: '$105,000', 
-            status: 'Offer', 
-            link: 'https://sony.com/careers/2d-artist', 
-            location: 'San Mateo, CA',
-            job_summary: 'Create 2D graphics and artwork for games.' 
-        },
-        { 
-            job_name: 'Machine Learning Engineer', 
-            company_name: 'OpenAI', 
-            salary: '$155,000', 
-            status: 'Applied', 
-            link: 'https://openai.com/careers/machine-learning-engineer', 
-            location: 'San Francisco, CA', 
-            job_summary: 'Develop and implement machine learning algorithms.' 
-        }
-    ]);
+    // const [jobs, setJobs] = useState([
+    //     { 
+    //         job_name: 'Software Engineer', 
+    //         company_name: 'Google', 
+    //         salary: '', 
+    //         status: 'Applied', 
+    //         link: 'https://google.com/careers/software-engineer', 
+    //         location: 'Mountain View, CA', 
+    //         job_summary: 'Develop and maintain software applications.' 
+    //     },
+    //     { 
+    //         job_name: 'Data Analyst', 
+    //         company_name: 'Facebook', 
+    //         salary: '$90,000', 
+    //         status: 'Interview', 
+    //         link: 'https://facebook.com/careers/data-analyst', 
+    //         location: 'Menlo Park, CA', 
+    //         job_summary: '' 
+    //     },
+    //     { 
+    //         job_name: 'Frontend Developer', 
+    //         company_name: 'Amazon', 
+    //         salary: '$110,000', 
+    //         status: 'Rejected', 
+    //         link: 'https://amazon.com/careers/frontend-developer', 
+    //         location: 'Seattle, WA', 
+    //         job_summary: 'Build user interfaces for web applications.' 
+    //     },
+    //     { 
+    //         job_name: 'Backend Developer', 
+    //         company_name: 'Netflix', 
+    //         salary: '$125,000', 
+    //         status: 'Offer', 
+    //         link: 'https://netflix.com/careers/backend-developer', 
+    //         location: '', 
+    //         job_summary: 'Develop server-side logic and databases.' 
+    //     },
+    //     { 
+    //         job_name: 'DevOps Engineer', 
+    //         company_name: 'Microsoft', 
+    //         salary: '$115,000', 
+    //         status: 'Applied', 
+    //         link: 'https://microsoft.com/careers/devops-engineer', 
+    //         location: 'Redmond, WA', 
+    //         job_summary: 'Manage and improve deployment pipelines.' 
+    //     },
+    //     { 
+    //         job_name: 'Project Manager', 
+    //         company_name: 'Apple', 
+    //         salary: '$130,000', 
+    //         status: 'Interview', 
+    //         link: 'https://apple.com/careers/project-manager', 
+    //         location: 'Cupertino, CA', 
+    //         job_summary: '' 
+    //     },
+    //     { 
+    //         job_name: 'QA Engineer', 
+    //         company_name: 'Uber', 
+    //         salary: '$100,000', 
+    //         status: 'Rejected', 
+    //         link: 'https://uber.com/careers/qa-engineer', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Ensure the quality of software through testing.' 
+    //     },
+    //     { 
+    //         job_name: 'Mobile Developer', 
+    //         company_name: 'Airbnb', 
+    //         salary: '$105,000', 
+    //         status: 'Offer', 
+    //         link: 'https://airbnb.com/careers/mobile-developer', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Develop mobile applications for iOS and Android.' 
+    //     },
+    //     { 
+    //         job_name: 'Product Manager', 
+    //         company_name: 'Tesla', 
+    //         salary: '$140,000', 
+    //         status: 'Applied', 
+    //         link: 'https://tesla.com/careers/product-manager', 
+    //         location: 'Palo Alto, CA', 
+    //         job_summary: 'Define product vision and strategy.' 
+    //     },
+    //     { 
+    //         job_name: 'System Architect', 
+    //         company_name: 'IBM', 
+    //         salary: '$150,000', 
+    //         status: 'Interview', 
+    //         link: 'https://ibm.com/careers/system-architect', 
+    //         location: '', 
+    //         job_summary: 'Design complex IT systems for business solutions.' 
+    //     },
+    //     { 
+    //         job_name: 'UX Designer', 
+    //         company_name: 'Spotify', 
+    //         salary: '$95,000', 
+    //         status: 'Offer', 
+    //         link: 'https://spotify.com/careers/ux-designer', 
+    //         location: 'New York, NY', 
+    //         job_summary: 'Create engaging and user-friendly designs.' 
+    //     },
+    //     { 
+    //         job_name: 'Security Analyst', 
+    //         company_name: 'Twitter', 
+    //         salary: '$110,000', 
+    //         status: 'Rejected', 
+    //         link: 'https://twitter.com/careers/security-analyst', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Protect systems and data from security threats.' 
+    //     },
+    //     { 
+    //         job_name: 'Cloud Engineer', 
+    //         company_name: 'Oracle', 
+    //         salary: '', 
+    //         status: 'Applied', 
+    //         link: 'https://oracle.com/careers/cloud-engineer', 
+    //         location: 'Austin, TX', 
+    //         job_summary: '' 
+    //     },
+    //     { 
+    //         job_name: 'Game Developer', 
+    //         company_name: 'Sony', 
+    //         salary: '$110,000', 
+    //         status: 'Interview', 
+    //         link: 'https://sony.com/careers/game-developer', 
+    //         location: 'San Mateo, CA', 
+    //         city: 'San Mateo',
+    //         state: 'California',
+    //         job_summary: 'Design and develop video games.' 
+    //     },
+    //     { 
+    //         job_name: 'AI Engineer', 
+    //         company_name: 'OpenAI', 
+    //         salary: '$150,000', 
+    //         status: 'Offer', 
+    //         link: 'https://openai.com/careers/ai-engineer', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Create AI models and solutions.' 
+    //     },
+    //     { 
+    //         job_name: 'Data Scientist', 
+    //         company_name: 'Google', 
+    //         salary: '$125,000', 
+    //         status: 'Interview', 
+    //         link: 'https://google.com/careers/data-scientist', 
+    //         location: 'Mountain View, CA', 
+    //         job_summary: 'Extract insights from data using statistical methods.' 
+    //     },
+    //     { 
+    //         job_name: 'Product Analyst', 
+    //         company_name: 'Facebook', 
+    //         salary: '$95,000', 
+    //         status: 'Applied', 
+    //         link: 'https://facebook.com/careers/product-analyst', 
+    //         location: 'Menlo Park, CA', 
+    //         job_summary: 'Analyze product performance and market trends.' 
+    //     },
+    //     { 
+    //         job_name: 'Full Stack Developer', 
+    //         company_name: 'Amazon', 
+    //         salary: '$115,000', 
+    //         status: 'Offer', 
+    //         link: 'https://amazon.com/careers/full-stack-developer', 
+    //         location: 'Seattle, WA', 
+    //         job_summary: 'Develop both client-side and server-side applications.' 
+    //     },
+    //     { 
+    //         job_name: 'Software Development Manager', 
+    //         company_name: 'Netflix', 
+    //         salary: '$135,000', 
+    //         status: 'Interview', 
+    //         link: 'https://netflix.com/careers/software-development-manager', 
+    //         location: 'Los Gatos, CA', 
+    //         job_summary: 'Manage software development teams and projects.' 
+    //     },
+    //     { 
+    //         job_name: 'Cloud Architect', 
+    //         company_name: 'Microsoft', 
+    //         salary: '$130,000', 
+    //         status: 'Applied', 
+    //         link: 'https://microsoft.com/careers/cloud-architect', 
+    //         location: 'Redmond, WA', 
+    //         job_summary: 'Design cloud-based solutions and architectures.' 
+    //     },
+    //     { 
+    //         job_name: 'Scrum Master', 
+    //         company_name: 'Apple', 
+    //         salary: '$140,000', 
+    //         status: 'Rejected', 
+    //         link: 'https://apple.com/careers/scrum-master', 
+    //         location: 'Cupertino, CA', 
+    //         job_summary: 'Facilitate Scrum processes and practices.' 
+    //     },
+    //     { 
+    //         job_name: 'Automation Tester', 
+    //         company_name: 'Uber', 
+    //         salary: '$105,000', 
+    //         status: 'Offer', 
+    //         link: 'https://uber.com/careers/automation-tester', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Automate testing for software applications.' 
+    //     },
+    //     { 
+    //         job_name: 'UI Developer', 
+    //         company_name: 'Airbnb', 
+    //         salary: '$100,000', 
+    //         status: 'Applied', 
+    //         link: 'https://airbnb.com/careers/ui-developer', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Develop user interfaces for web and mobile applications.' 
+    //     },
+    //     { 
+    //         job_name: 'Marketing Manager', 
+    //         company_name: 'Tesla', 
+    //         salary: '$150,000', 
+    //         status: 'Interview', 
+    //         link: '', 
+    //         location: 'Palo Alto, CA', 
+    //         job_summary: 'Manage marketing campaigns and strategies.' 
+    //     },
+    //     { 
+    //         job_name: 'Network Engineer', 
+    //         company_name: 'IBM', 
+    //         salary: '$120,000', 
+    //         status: 'Offer', 
+    //         link: 'https://ibm.com/careers/network-engineer', 
+    //         location: 'Armonk, NY', 
+    //         job_summary: 'Design and implement network solutions.' 
+    //     },
+    //     { 
+    //         job_name: 'Data Engineer', 
+    //         company_name: 'Spotify', 
+    //         salary: '$110,000', 
+    //         status: 'Applied', 
+    //         link: 'https://spotify.com/careers/data-engineer', 
+    //         location: 'New York, NY', 
+    //         job_summary: 'Build data pipelines and architecture.' 
+    //     },
+    //     { 
+    //         job_name: 'Incident Response Specialist', 
+    //         company_name: 'Twitter', 
+    //         salary: '$115,000', 
+    //         status: 'Rejected', 
+    //         link: '', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Respond to security incidents and mitigate risks.' 
+    //     },
+    //     { 
+    //         job_name: 'DevSecOps Engineer', 
+    //         company_name: 'Oracle', 
+    //         salary: '$140,000', 
+    //         status: 'Interview', 
+    //         link: 'https://oracle.com/careers/devsecops-engineer', 
+    //         location: 'Austin, TX', 
+    //         job_summary: 'Integrate security practices into DevOps processes.' 
+    //     },
+    //     { 
+    //         job_name: '2D Artist', 
+    //         company_name: 'Sony', 
+    //         salary: '$105,000', 
+    //         status: 'Offer', 
+    //         link: 'https://sony.com/careers/2d-artist', 
+    //         location: 'San Mateo, CA',
+    //         job_summary: 'Create 2D graphics and artwork for games.' 
+    //     },
+    //     { 
+    //         job_name: 'Machine Learning Engineer', 
+    //         company_name: 'OpenAI', 
+    //         salary: '$155,000', 
+    //         status: 'Applied', 
+    //         link: 'https://openai.com/careers/machine-learning-engineer', 
+    //         location: 'San Francisco, CA', 
+    //         job_summary: 'Develop and implement machine learning algorithms.' 
+    //     }
+    // ]);
+
+    const [jobs, setJobs] = useState([])
+    const backendApiUrl = useSelector((state)=>state.api_url.backendApiUrl)
+    useEffect(()=>{
+        axios.get(`${backendApiUrl}/jobs/`).then(rep=>{
+            setJobs(rep.data)   // this is an array of objects
+        })
+    },[])
     
 
     // Search filters

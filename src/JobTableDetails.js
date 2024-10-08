@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUpRightFromSquare  } from '@fortawesome/free-solid-svg-icons'
+import { useEffect } from 'react';
 import './styles/modalStyle.css'
 
 
@@ -15,12 +16,15 @@ function JobTableDetails(props){
     const renderDetails = (details, msg) =>{
         // return details.length > 0 ? details : msg;
         if(details){
-            return details.length > 0 ? details : msg;
+            return details.toString().length > 0 ? details : msg;
         } else {
             return msg
         }
         
     }
+    useEffect(()=>{
+        console.log(job_details)
+    },)
     
     return (
         <>
@@ -39,7 +43,7 @@ function JobTableDetails(props){
                             </Modal.Title>
                         </Col>
                         <Col>
-                            <a href={job_details.link} target='_blank'> 
+                            <a href={job_details.job_link} target='_blank'> 
                                 <Button >
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> 
                                 </Button>
