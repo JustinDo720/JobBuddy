@@ -16,15 +16,14 @@ function JobTableDetails(props){
     const renderDetails = (details, msg) =>{
         // return details.length > 0 ? details : msg;
         if(details){
+            // Some fields like "salary" are integers therefore we'll change it to string to display the length
             return details.toString().length > 0 ? details : msg;
         } else {
             return msg
         }
         
     }
-    useEffect(()=>{
-        console.log(job_details)
-    },)
+
     
     return (
         <>

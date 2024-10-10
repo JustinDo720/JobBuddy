@@ -1,0 +1,18 @@
+.my-orange-btn {
+    background-color: #E99F56 !important; /* Your custom background color */
+    color: white !important; /* Your custom text color */
+    border: none; /* Remove the border if necessary */
+}
+
+.my-orange-btn:focus {
+    outline: none !important; /* Removes the blue outline */
+    box-shadow: none !important; /* Removes the focus shadow */
+}
+
+.my-orange-btn:hover {
+    background-color: #d97f43 !important; /* Darken color on hover if needed */
+}
+
+.no-underline-link {
+    text-decoration: none;
+}

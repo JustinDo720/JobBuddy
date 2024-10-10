@@ -8,6 +8,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
+import ActivateSuccess from './RegisterActivateSuccess';
 
 
 
@@ -62,6 +63,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='login/' element={<Login/>}/>
           <Route path='register/' element={<Register/>}/>
+          <Route path='activate/:uid/:token' element={<ActivateSuccess/>}/>
         </Routes>
       </Router>
       

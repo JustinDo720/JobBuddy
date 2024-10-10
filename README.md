@@ -117,9 +117,9 @@ We need to make sure we hook up **redux** for state management. This allows us t
 - `npm install redux react-redux`
 
 1. **User Login**
-  - [ ] Creating the User Login and Register Form 
-  - [ ] Use your django Djoser link to create our User 
-  - [ ] Ensure an Email sign in  + Confirmation. Additionally make sure to display username if signed in 
+  - [x] Creating the User Login and Register Form 
+  - [x] Use your django Djoser link to create our User 
+  - [x] (1/2) Ensure an Email sign in  + Confirmation. Additionally make sure to display username if signed in 
   - [ ] Deal with resend confirmation, update username, update password...
 
 2. **Display Jobs on Home page**
