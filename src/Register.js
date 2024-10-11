@@ -34,14 +34,14 @@ export default function Register(){
         setShowRC(false)
     }
 
-    const [showActivate, setShowActivate] = useState(false)
+    const [showRA, setShowRA] = useState(false)
 
-    const toggleShowActivate = ()=>{
-        setShowActivate(!showActivate)
+    const toggleShowRA = () =>{
+        setShowRA(!showRA)
     }
 
-    const handleCloseActivate = ()=>{
-        setShowActivate(false)
+    const handleCloseRA = () => {
+        setShowRA(false)
     }
 
     const [formData, setFormData] = useState({})
@@ -59,17 +59,11 @@ export default function Register(){
     const submitForm = (e)=>{
         e.preventDefault()
         if (formData['password'] === formData['re_password']){
-
-            axios.post(`${backendApiUrl}/users/auth/users/`, formData).then((rep)=>{
-                console.log(rep.data)
-                let uid = '#'
-                let token = '#'
-                toggleShowActivate()
-                // // Redirect to the activate page with uid and token
-                // navigate(`/activate/${uid}/${token}`);
-                // Then we save their email and password as cookies (maybe have a checkbox to do keep signed in )
-                // Redirect to Home Page
-            })
+            console.log(formData)
+            toggleShowRA()
+            // axios.post(`${backendApiUrl}/users/auth/users/`, formData).then((rep)=>{
+                
+            // }).catch((e)=>{})
 
         } else {
             setFormErr((prevErr)=>({
@@ -208,7 +202,7 @@ export default function Register(){
 
         {/* Confirmation Modal */}
         <ResendConfirmation show={showRC} handleClose={handleClose}></ResendConfirmation>
-        <RegActivate show={showActivate} handleClose={handleCloseActivate} email={formData.email}></RegActivate>
+        <RegActivate show={showRA} handleClose={handleCloseRA} email={formData.email}></RegActivate>
 
     </>
 }

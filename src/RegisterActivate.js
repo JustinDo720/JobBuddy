@@ -2,10 +2,42 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function RegActivate(props){
     // Trying using Redux for this, You just need to do activate, If activate then display a checkmark and close the modal or a banner
+    const isActivated = useSelector((state) => state.activate.acc_activated);
+
+    useEffect(()=>{
+       // If this modal is open, that means we're waiting for the confirmation 
+       // We know it's confirmed IF localStorage has "acc_activated" key 
+        if (props.show){
+            let intervalId = null
+
+            const checkAccountActivation = () => {
+                const accActivated = localStorage.getItem('acc_activated');
+    
+                if (accActivated === 'true') {
+                    // if the accActivated then let's close the modal 
+                    console.log('We are good')
+                    clearInterval(intervalId);
+                    props.handleClose()
+                } else {
+                    console.log('We are running which is still good')
+                }
+            };
+    
+            // Check activation status on component mount
+            checkAccountActivation();
+    
+            intervalId = setInterval(checkAccountActivation, 5000); // Check every 5 seconds
+        }
+    },[props.show])
+    
+    // Anther state that watches changes to our intial state
+    
 
     return(
         <>
@@ -16,6 +48,7 @@ export default function RegActivate(props){
                     show={props.show}
                     centered
                     size='lg'
+                    backdrop="static"
                     onHide={props.handleClose}
                 >
                     <Modal.Header closeButton>
