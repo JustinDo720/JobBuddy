@@ -23,28 +23,10 @@ export default function ActivateSuccess(){
         //
         // This is NOT what you're posting to with axios. You're posting to 'users/activation' with a uid and token
         document.title = 'JobBuddy | Activation'
-        dispatch(setActivation({acc_activated:true}))
-        // axios.post(`${backendApiUrl}/users/auth/users/activation/`, {'uid':uid, 'token':token}).then((rep)=>{
-        //     // Now let's go ahead and grab some user information
-        //     axios.post(`${backendApiUrl}/users/api/token/`, {
-        //         email: email,
-        //         password: password
-        //     }).then((rep)=>{
-        //         // after we post we could send our dispatch for information 
-        //         console.log(rep.data)
-        //         // dispatch(setActivation(
-        //         //     acc_activated=true,
-        //         //     access_token='',
-        //         //     refresh_token='',
-        //         //     username='',
-        //         // ));
-        //     })
-            
-        //     // We need to update our activation state in the store so... 
-        //     // Let's dispatch our action 
-        // }).catch((e)=>{
-
-        // })
+  
+        axios.post(`${backendApiUrl}/users/auth/users/activation/`, {'uid':uid, 'token':token}).then((rep)=>{
+                dispatch(setActivation({acc_activated:true}))
+        }).catch((e)=>{})
     }, [])
 
     return(<>

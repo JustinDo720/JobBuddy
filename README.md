@@ -120,7 +120,12 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [x] Creating the User Login and Register Form 
   - [x] Use your django Djoser link to create our User 
   - [x] (1/2) Ensure an Email sign in  + Confirmation. Additionally make sure to display username if signed in 
-  - [ ] Deal with resend confirmation, update username, update password...
+    - [ ] After auth display username 
+  - [x] Success Confirmation Page (LocalStorage to automatically sign our users)
+  - [x] Display err message if form isn't valids 
+  - [x] (1/2) Deal with resend confirmation, update username, update password...
+    - [ ] Tomorrow: Work on password reset 
+  - [ ] Tomorrow: Work on Redirecting Login, Setting username, Redirecting after Register
 
 2. **Display Jobs on Home page**
   - [ ] Jobs must be of the User

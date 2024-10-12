@@ -16,6 +16,7 @@ import axios from "axios";
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Register(){
     useEffect(()=>{
         document.title = 'JobBuddy | Register'
@@ -59,11 +60,37 @@ export default function Register(){
     const submitForm = (e)=>{
         e.preventDefault()
         if (formData['password'] === formData['re_password']){
-            console.log(formData)
-            toggleShowRA()
-            // axios.post(`${backendApiUrl}/users/auth/users/`, formData).then((rep)=>{
-                
-            // }).catch((e)=>{})
+            axios.post(`${backendApiUrl}/users/auth/users/`, formData).then((rep)=>{
+                // If successful we'll clear all err messages
+                setFormErr(prevErr=>{
+                    const {email_err, pass_err, pass_missmatch, ...rest} = prevErr
+                    return rest
+                })
+                toggleShowRA()
+            }).catch((err)=>{
+                if(err.response.data.email){
+                    setFormErr((prevErr)=>({
+                        ...prevErr,
+                        'email_err': "This email is already in use. Please use a different Email."
+                    }))
+
+                    // If there's an err with email we'll clear password 
+                    setFormErr(prevErr=>{
+                        const {pass_err, ...rest} = prevErr
+                        return rest 
+                    })
+                } else if(err.response.data.password){
+                    setFormErr((prevErr)=>({
+                        ...prevErr,
+                        'pass_err': "This password is too common"
+                    }))
+                    // If there's an err with email we'll clear password 
+                    setFormErr(prevErr=>{
+                        const {email_err, ...rest} = prevErr
+                        return rest
+                    })
+                }
+            })
 
         } else {
             setFormErr((prevErr)=>({
@@ -71,6 +98,13 @@ export default function Register(){
                 'pass_missmatch': 'Both passwords must match'
             }))
         }
+    }
+
+    const addErr = (err_msg)=>{
+        setFormData((prevErr)=>({
+            ...prevErr,
+            'current_form_err': err_msg
+        }))
     }
 
     return <>
@@ -173,11 +207,14 @@ export default function Register(){
                         
                             <Row className="justify-content-md-center" style={{padding:'15px'}}>
                                 <Col xs={12} md={5}>
-                                    {formErr.pass_missmatch?
-                                        <Form.Text id="conf_pass" style={{color:'red'}}>
-                                            { formErr.pass_missmatch}
-                                        </Form.Text>
-                                    : <></>}
+                                    {Object.values(formErr).map(err=> (
+                                        <>
+                                            <br/>
+                                            <Form.Text style={{color:'red'}}>
+                                                { err }
+                                            </Form.Text>
+                                        </>
+                                    ))}
                                 </Col>
                                 <Col xs={12} md={7}>
                                     <Link onClick={toggleShowRC} className='no-underline-link' style={{ fontSize: '1.12rem'}}>Resend Confirmation</Link>

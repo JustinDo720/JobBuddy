@@ -11,6 +11,9 @@ import Button from 'react-bootstrap/Button';
 import './styles/myBtn.css'
 import { Link } from 'react-router-dom'
 import ForgotPassword from "./LoginForgotPassword";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setActivation } from "./redux/Activation/activation_action";
 
 export default function Register(){
     useEffect(()=>{
@@ -18,6 +21,32 @@ export default function Register(){
       },[])
 
     const [showFP, setShowFP] = useState(false)
+    const [fd, setFD] = useState({})
+    const dispatch = useDispatch()
+
+    const baseUrl = useSelector((state)=>state.api_url.backendApiUrl)
+
+    const submitForm = (e)=>{
+        e.preventDefault()
+        console.log(fd)
+        axios.post(`${baseUrl}/users/api/token/`, fd).then((rep)=>{
+            console.log(rep.data)
+            dispatch(setActivation({
+                acc_activated: true,
+                access_token:rep.data.access,
+                refresh_token:rep.data.refresh
+            }))
+        })
+    }
+
+    const updateFD = (e)=>{
+        const {name,value} = e.target
+
+        setFD((prevFD)=>({
+            ...prevFD,
+            [name]:value
+        }))
+    }
 
     const toggleShowFP = ()=>{
         setShowFP(!showFP)
@@ -60,7 +89,7 @@ export default function Register(){
                                 Sign In 
                             </b>
                         </h1>
-                        <Form>
+                        <Form onSubmit={(e)=>{submitForm(e)}}>
                             <InputGroup className="mb-3">
                                 <InputGroup.Text id="email_field">
                                     <FontAwesomeIcon icon={faEnvelope} />
@@ -68,6 +97,9 @@ export default function Register(){
                                 <Form.Control
                                     size="lg"
                                     type='email'
+                                    name='email'
+                                    onChange={updateFD}
+                                    required
                                     placeholder="Email"
                                     aria-label="email"
                                     aria-describedby="email_field"
@@ -81,6 +113,9 @@ export default function Register(){
                                 <Form.Control
                                     size="lg"
                                     type='password'
+                                    name='password'
+                                    onChange={updateFD}
+                                    required
                                     placeholder="Password"
                                     aria-label="password"
                                     aria-describedby="password_field"
@@ -97,13 +132,15 @@ export default function Register(){
                                     <Link onClick={toggleShowFP} className='no-underline-link' style={{ fontSize: '1.12rem'}}>Forgot Password</Link>
                                 </Col>
                             </Row>
+
+                            <div className="d-grid gap-2" style={{padding:'15px'}}>
+                                <Button variant="success" type='submit'>
+                                    Login
+                                </Button>
+                            </div>
             
-                            </Form>
-                        <div className="d-grid gap-2" style={{padding:'15px'}}>
-                            <Button variant="success">
-                                Login
-                            </Button>
-                        </div>
+                        </Form>
+                        
                     </Container>
                     <div style={{ textAlign:'center'}}>
                         <p style={{fontSize:'0.8rem'}} className="secondary">
