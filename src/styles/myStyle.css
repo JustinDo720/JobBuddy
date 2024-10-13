@@ -10,3 +10,11 @@ body {
     color: #E99F56; /* Custom title color */
     font-size: 2rem;
   }
+
+  .custom-dropdown .dropdown-toggle::after {
+    display: none;
+  }
+
+  .my-custom-text-color {
+    color: #E99F56 !important
+  }

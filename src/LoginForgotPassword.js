@@ -51,6 +51,7 @@ export default function ForgotPassword(props){
                             <Form.Label htmlFor="inputEmail">Email</Form.Label>
                             <Form.Control
                                 type="email"
+                                onChange={updateEmail}
                                 id="inputEmail"
                                 aria-describedby="emailHelpBlock"
                             />

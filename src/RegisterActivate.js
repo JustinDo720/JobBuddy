@@ -5,7 +5,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 export default function RegActivate(props){
     // Trying using Redux for this, You just need to do activate, If activate then display a checkmark and close the modal or a banner
     const isActivated = useSelector((state) => state.activate.acc_activated);

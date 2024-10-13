@@ -33,6 +33,8 @@ export default function Register(){
 
     const handleClose = ()=>{
         setShowRC(false)
+        // Once we close the activate we're just going to redirect to home page 
+        navigate('/')
     }
 
     const [showRA, setShowRA] = useState(false)

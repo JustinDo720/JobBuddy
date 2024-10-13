@@ -9,18 +9,30 @@ import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import ActivateSuccess from './RegisterActivateSuccess';
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import Button from 'react-bootstrap/Button';
+import { useDispatch } from 'react-redux';
+import { setLogout } from './redux/Logout/logout_action';
+import { useNavigate } from 'react-router-dom';
+import ResetPassword from './LoginResetPassword';
 
 function App() {
 
   const star_link = 'https://interviewsteps.com/blogs/news/amazon-star-method'
   const glassdoor_salary_link = 'https://www.glassdoor.com/Salaries/index.htm'
-  
+  const username = localStorage.getItem('username') || ''
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // Since ONLY App has our logout button
+  const logout = ()=>{
+    dispatch(setLogout({}))
+    navigate('/')
+  }
 
   return (
     <>
-      <Router>
         <Navbar collapseOnSelect expand="lg" bg='dark' data-bs-theme="dark">
           <Container>
             <Navbar.Brand>
@@ -42,18 +54,51 @@ function App() {
                   { /* Potential User Added Resources */ }
                 </NavDropdown>
               </Nav>
-              <Nav>
-                <Nav.Link>
-                  <Link to='register/' className='text-reset text-decoration-none'>
-                    Register
-                  </Link>
-                </Nav.Link>
-                <Nav.Link>
-                  <Link to='login/' className='text-reset text-decoration-none'>
-                    Login
-                  </Link>
-                </Nav.Link>
-              </Nav>
+              { !localStorage.getItem('acc_activated') ?
+                <Nav>
+                  <Nav.Link>
+                    <Link to='register/' className='text-reset text-decoration-none'>
+                      Register
+                    </Link>
+                  </Nav.Link>
+                  <Nav.Link>
+                    <Link to='login/' className='text-reset text-decoration-none'>
+                      Login
+                    </Link>
+                  </Nav.Link>
+                </Nav>
+              : <Nav>
+                  <Navbar.Text style={{margin:'auto'}} className='my-custom-text-color'>
+                      Welcome, <b>{ username }</b>  
+                  </Navbar.Text>
+                  <NavDropdown 
+                    title={<Button variant="outline-light">
+                          <FontAwesomeIcon icon={faUser} />
+                          </Button>} 
+                    id="basic-nav-dropdown"
+                    className='custom-dropdown'
+                    alignRight
+                    style={{'margin-left': '20px'}}
+                    >
+                    <NavDropdown.Item href="#action/3.1">View Profile</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">
+                      Change Username
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <Link to='register/' className='text-reset text-decoration-none'>
+                        Forgot Password
+                      </Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.ItemText style={{textAlign:'center'}}>
+                      <div className="d-grid gap-2">
+                        <Button variant="danger" size="sm" onClick={logout}>Log Out</Button>
+                      </div>
+                    </NavDropdown.ItemText>
+                  </NavDropdown>
+                </Nav>
+              }
+              
             </Navbar.Collapse>
           </Container>
         </Navbar>
@@ -64,8 +109,8 @@ function App() {
           <Route path='login/' element={<Login/>}/>
           <Route path='register/' element={<Register/>}/>
           <Route path='activate/:uid/:token' element={<ActivateSuccess/>}/>
+          <Route path='password/reset/confirm/:uid/:token' element={<ResetPassword/>}/>
         </Routes>
-      </Router>
       
     </>
 

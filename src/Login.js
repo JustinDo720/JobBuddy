@@ -14,6 +14,7 @@ import ForgotPassword from "./LoginForgotPassword";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setActivation } from "./redux/Activation/activation_action";
+import { useNavigate } from "react-router-dom";
 
 export default function Register(){
     useEffect(()=>{
@@ -23,6 +24,7 @@ export default function Register(){
     const [showFP, setShowFP] = useState(false)
     const [fd, setFD] = useState({})
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const baseUrl = useSelector((state)=>state.api_url.backendApiUrl)
 
@@ -34,8 +36,10 @@ export default function Register(){
             dispatch(setActivation({
                 acc_activated: true,
                 access_token:rep.data.access,
-                refresh_token:rep.data.refresh
+                refresh_token:rep.data.refresh,
+                trusted_dev: fd['trust_device']?true:false
             }))
+            navigate('/')
         })
     }
 
@@ -125,7 +129,7 @@ export default function Register(){
                             <Row className="justify-content-md-center" style={{padding:'15px'}}>
                                 <Col xs={12} md={7}>
                                     <InputGroup>
-                                        <Form.Check type="checkbox" label='Remember me' name="trust_device" style={{ fontSize: '1.12rem'}}/>
+                                        <Form.Check type="checkbox" label='Remember me' name="trust_device" onChange={updateFD} style={{ fontSize: '1.12rem'}}/>
                                     </InputGroup>
                                 </Col>
                                 <Col xs={12} md={5}>
