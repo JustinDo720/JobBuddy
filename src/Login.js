@@ -34,11 +34,11 @@ export default function Register(){
         console.log(fd)
         axios.post(`${baseUrl}/users/api/token/`, fd).then((rep)=>{
             dispatch(setActivation({
+                user_id:rep.data.user_id,
                 acc_activated: true,
                 access_token:rep.data.access,
                 refresh_token:rep.data.refresh,
                 username:rep.data.username,
-                trusted_dev: fd['trust_device']?true:false
             }))
             navigate('/')
         }).catch((e)=>{
@@ -137,11 +137,11 @@ export default function Register(){
                             </InputGroup>
                 
                             <Row className="justify-content-md-center" style={{padding:'15px'}}>
-                                <Col xs={12} md={7}>
+                                {/* <Col xs={12} md={7}>
                                     <InputGroup>
-                                        <Form.Check type="checkbox" label='Remember me' name="trust_device" onChange={updateFD} style={{ fontSize: '1.12rem'}}/>
+                                        <Form.Check type="checkbox" label='Remember me' name="trust_device" checked={isChecked} onChange={setIsChecked(!isChecked)} style={{ fontSize: '1.12rem'}}/>
                                     </InputGroup>
-                                </Col>
+                                </Col> */}
                                 <Col xs={12} md={5}>
                                     <Link onClick={toggleShowFP} className='no-underline-link' style={{ fontSize: '1.12rem'}}>Forgot Password</Link>
                                 </Col>

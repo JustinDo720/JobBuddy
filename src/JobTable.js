@@ -297,10 +297,19 @@ export default function JobTable(){
 
     const [jobs, setJobs] = useState([])
     const backendApiUrl = useSelector((state)=>state.api_url.backendApiUrl)
+    const {user_id, access_token, acc_activated} = useSelector((state)=>state.activate)
+
+    const fetchJobs = ()=>{
+        if(acc_activated){
+            axios.get(`${backendApiUrl}/users/details/${user_id}/jobs/`,{headers:{Authorization:`Bearer ${access_token}`}}).then(rep=>{
+                setJobs(rep.data.user_jobs)   // this is an array of objects
+            })
+        }
+    }
+
+
     useEffect(()=>{
-        axios.get(`${backendApiUrl}/jobs/`).then(rep=>{
-            setJobs(rep.data)   // this is an array of objects
-        })
+        fetchJobs()
     },[])
     
 
@@ -583,7 +592,7 @@ export default function JobTable(){
                         </tr>
                     ))) : (
                         <tr>
-                            <td colSpan="4" style={{ textAlign: 'center' }}>Sorry, search not found...</td>
+                            <td colSpan="4" style={{ textAlign: 'center' }}>Sorry, no items were found...</td>
                         </tr>
                     )}
                 </tbody>
@@ -593,7 +602,7 @@ export default function JobTable(){
             {/* Job Details Modal */}
             <JobTableDetails show={ show } handleClose={ handleClose } job_details={ chosen_job }></JobTableDetails>
             {/* Add Job Modal */}
-            <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal }></JobTableAddJob>
+            <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal } refreshJobs={fetchJobs}></JobTableAddJob>
             {/* Edit Job Modal */}
             <JobTableEditJob show={ showEditing } handleClose= { closeShowEditing } job_object={ chosenEditingJob }></JobTableEditJob>
             {/* Delete Job Modal */}

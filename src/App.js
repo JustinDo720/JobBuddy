@@ -34,10 +34,12 @@ function App() {
   const [showCE, setShowCE] = useState(false)
 
   // Since ONLY App has our logout button
-  const logout = ()=>{
-    dispatch(setLogout({}))
+  const logout = async () => {
+    await dispatch(setLogout({})); // Wait for the logout to complete
+    // It's better to force a refresh because we don't want content remaining if the user is logged out so 
     navigate('/')
-  }
+    window.location.reload()
+};
 
   return (
     <>

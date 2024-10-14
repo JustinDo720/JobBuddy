@@ -129,16 +129,16 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [x] Reset Email (bceause this is what's used to auth) & Password for **auth** users
 
 2. **Display Jobs on Home page**
-  - [ ] Jobs must be of the User
-  - [ ] If no job present display a message 
+  - [x] Jobs must be of the User
+  - [x] If no job present display a message 
 
 3. **Banners**
   - [ ] Upon a user finished action display a banner/alert 
     - Posting, Editing, Removing etc
 
 4. **Adding Jobs**
-  - [ ] Grab the Status and State options to update our form
-  - [ ] Posting should now use our RESTAPI to post data to a specific User 
+  - [x] Grab the Status and State options to update our form
+  - [x] Posting should now use our RESTAPI to post data to a specific User 
 
 5. **Editing and Deleting**
   - [ ] Ensure these HTTP methods follow our backend 
@@ -153,3 +153,4 @@ Things to Work on post Launch:
 1) Charting 
 1) Reset Emails (Change message?)
 1) Landing Page then dashboard link
+1) Access to users could only be FOR THAT USER (if i have an access token i could access other peoples job post via id )

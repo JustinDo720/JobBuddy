@@ -6,72 +6,86 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './styles/modalStyle.css'
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function JobTableAddJob(props){
 
+    const baseURL = useSelector((state)=>state.api_url.backendApiUrl)
+    const {user_id, access_token} = useSelector((state)=>state.activate)
     const [selectedStates, setSelectedStates] = useState('')
-    
-    const states = [
-        { abbr: "AL", name: "Alabama" },
-        { abbr: "AK", name: "Alaska" },
-        { abbr: "AZ", name: "Arizona" },
-        { abbr: "AR", name: "Arkansas" },
-        { abbr: "CA", name: "California" },
-        { abbr: "CO", name: "Colorado" },
-        { abbr: "CT", name: "Connecticut" },
-        { abbr: "DE", name: "Delaware" },
-        { abbr: "FL", name: "Florida" },
-        { abbr: "GA", name: "Georgia" },
-        { abbr: "HI", name: "Hawaii" },
-        { abbr: "ID", name: "Idaho" },
-        { abbr: "IL", name: "Illinois" },
-        { abbr: "IN", name: "Indiana" },
-        { abbr: "IA", name: "Iowa" },
-        { abbr: "KS", name: "Kansas" },
-        { abbr: "KY", name: "Kentucky" },
-        { abbr: "LA", name: "Louisiana" },
-        { abbr: "ME", name: "Maine" },
-        { abbr: "MD", name: "Maryland" },
-        { abbr: "MA", name: "Massachusetts" },
-        { abbr: "MI", name: "Michigan" },
-        { abbr: "MN", name: "Minnesota" },
-        { abbr: "MS", name: "Mississippi" },
-        { abbr: "MO", name: "Missouri" },
-        { abbr: "MT", name: "Montana" },
-        { abbr: "NE", name: "Nebraska" },
-        { abbr: "NV", name: "Nevada" },
-        { abbr: "NH", name: "New Hampshire" },
-        { abbr: "NJ", name: "New Jersey" },
-        { abbr: "NM", name: "New Mexico" },
-        { abbr: "NY", name: "New York" },
-        { abbr: "NC", name: "North Carolina" },
-        { abbr: "ND", name: "North Dakota" },
-        { abbr: "OH", name: "Ohio" },
-        { abbr: "OK", name: "Oklahoma" },
-        { abbr: "OR", name: "Oregon" },
-        { abbr: "PA", name: "Pennsylvania" },
-        { abbr: "RI", name: "Rhode Island" },
-        { abbr: "SC", name: "South Carolina" },
-        { abbr: "SD", name: "South Dakota" },
-        { abbr: "TN", name: "Tennessee" },
-        { abbr: "TX", name: "Texas" },
-        { abbr: "UT", name: "Utah" },
-        { abbr: "VT", name: "Vermont" },
-        { abbr: "VA", name: "Virginia" },
-        { abbr: "WA", name: "Washington" },
-        { abbr: "WV", name: "West Virginia" },
-        { abbr: "WI", name: "Wisconsin" },
-        { abbr: "WY", name: "Wyoming" },
-      ];
+    const [states, setStates] = useState([])
+    const [status, setStatus] = useState([])
 
-    const status = [
-        'Applied',
-        'Interview',
-        'Offer',
-        'Rejected'
-    ]
+    useEffect(()=>{
+        axios.get(`${baseURL}/choices/`).then((rep)=>{
+            console.log(rep.data)
+            setStatus(rep.data.status_choices)
+            setStates(rep.data.state_choices.slice(1))
+        })
+    },[props.show])
+    
+    // const states = [
+    //     { abbr: "AL", name: "Alabama" },
+    //     { abbr: "AK", name: "Alaska" },
+    //     { abbr: "AZ", name: "Arizona" },
+    //     { abbr: "AR", name: "Arkansas" },
+    //     { abbr: "CA", name: "California" },
+    //     { abbr: "CO", name: "Colorado" },
+    //     { abbr: "CT", name: "Connecticut" },
+    //     { abbr: "DE", name: "Delaware" },
+    //     { abbr: "FL", name: "Florida" },
+    //     { abbr: "GA", name: "Georgia" },
+    //     { abbr: "HI", name: "Hawaii" },
+    //     { abbr: "ID", name: "Idaho" },
+    //     { abbr: "IL", name: "Illinois" },
+    //     { abbr: "IN", name: "Indiana" },
+    //     { abbr: "IA", name: "Iowa" },
+    //     { abbr: "KS", name: "Kansas" },
+    //     { abbr: "KY", name: "Kentucky" },
+    //     { abbr: "LA", name: "Louisiana" },
+    //     { abbr: "ME", name: "Maine" },
+    //     { abbr: "MD", name: "Maryland" },
+    //     { abbr: "MA", name: "Massachusetts" },
+    //     { abbr: "MI", name: "Michigan" },
+    //     { abbr: "MN", name: "Minnesota" },
+    //     { abbr: "MS", name: "Mississippi" },
+    //     { abbr: "MO", name: "Missouri" },
+    //     { abbr: "MT", name: "Montana" },
+    //     { abbr: "NE", name: "Nebraska" },
+    //     { abbr: "NV", name: "Nevada" },
+    //     { abbr: "NH", name: "New Hampshire" },
+    //     { abbr: "NJ", name: "New Jersey" },
+    //     { abbr: "NM", name: "New Mexico" },
+    //     { abbr: "NY", name: "New York" },
+    //     { abbr: "NC", name: "North Carolina" },
+    //     { abbr: "ND", name: "North Dakota" },
+    //     { abbr: "OH", name: "Ohio" },
+    //     { abbr: "OK", name: "Oklahoma" },
+    //     { abbr: "OR", name: "Oregon" },
+    //     { abbr: "PA", name: "Pennsylvania" },
+    //     { abbr: "RI", name: "Rhode Island" },
+    //     { abbr: "SC", name: "South Carolina" },
+    //     { abbr: "SD", name: "South Dakota" },
+    //     { abbr: "TN", name: "Tennessee" },
+    //     { abbr: "TX", name: "Texas" },
+    //     { abbr: "UT", name: "Utah" },
+    //     { abbr: "VT", name: "Vermont" },
+    //     { abbr: "VA", name: "Virginia" },
+    //     { abbr: "WA", name: "Washington" },
+    //     { abbr: "WV", name: "West Virginia" },
+    //     { abbr: "WI", name: "Wisconsin" },
+    //     { abbr: "WY", name: "Wyoming" },
+    //   ];
+
+    // const status = [
+    //     'Applied',
+    //     'Interview',
+    //     'Offer',
+    //     'Rejected'
+    // ]
 
     // Default dictionary keys of all <Form.Control name=''> attribute for us to use the spread operator
     const [formData, setFormData] = useState({
@@ -105,11 +119,30 @@ function JobTableAddJob(props){
     const submitForm = (e) => {
         e.preventDefault()
         let loc = location()
+        const api_fd = {
+            // Required:
+            "job_name": formData.job_name,
+            "job_city": formData.city,
+            "company_name": formData.company_name,
+            "user": user_id,
+            // Optional:
+            "salary": Number(formData.salary),
+            "job_link": formData.link,
+            "job_summary": formData.job_summary,
+            "job_state": formData.state
+        }
         
         console.log(formData)
         console.log(loc)
+        axios.post(`${baseURL}/jobs/`, api_fd,{headers:{Authorization:`Bearer ${access_token}`}}).then((rep)=>{
+            props.refreshJobs()
+            props.handleClose()
 
-        props.handleClose()
+        }).catch((e)=>{
+            console.log(e.response)
+        })
+        console.log(api_fd)
+        
     }
 
     return (
@@ -181,7 +214,7 @@ function JobTableAddJob(props){
                                 </Form.Label>
                                 <InputGroup>
                                     <InputGroup.Text>$</InputGroup.Text>
-                                    <Form.Control type='text' name='salary' value={formData.salary} onChange={updateField} id="inlineFormInputGroup" placeholder="Salary" />
+                                    <Form.Control type='number' name='salary' value={formData.salary} onChange={updateField} id="inlineFormInputGroup" placeholder="Salary" />
                                 </InputGroup>
                             </Col>
                             <Col xs='auto'>
@@ -193,8 +226,8 @@ function JobTableAddJob(props){
                                     <Form.Select required name='state' value={formData.state} onChange={updateField}>
                                         <option value=''>* Select State</option>
                                         {states.map((state)=>(
-                                            <option value={state.name}>
-                                                {state.name}
+                                            <option value={state[0]}>
+                                                {state[1]}
                                             </option>
                                         ))}
                                         
@@ -209,8 +242,8 @@ function JobTableAddJob(props){
                                     <InputGroup.Text>* Status:</InputGroup.Text>
                                     <Form.Select required name='status' value={formData.status} onChange={updateField}>
                                         {status.map((stat)=>(
-                                            <option value={stat}>
-                                                {stat}
+                                            <option value={stat[0]}>
+                                                {stat[1]}
                                             </option>
                                         ))}
                                         

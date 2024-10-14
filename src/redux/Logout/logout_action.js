@@ -9,6 +9,7 @@ export const setLogout = (data) => {
     localStorage.removeItem('refresh_token', data.refresh_token);
     localStorage.removeItem('username', data.username);
     localStorage.removeItem('acc_activated', data.acc_activated);
+    localStorage.removeItem('user_id', data.user_id)
     
     return {
         type: LOGOUT,
@@ -16,7 +17,8 @@ export const setLogout = (data) => {
             acc_activated: null,
             access_token: null,
             refresh_token: null,
-            username: null
+            username: null,
+            user_id: null
         }
     }
 }

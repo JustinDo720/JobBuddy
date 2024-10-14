@@ -41,7 +41,7 @@ export default function RegActivate(props){
                         access_token:rep.data.access,
                         refresh_token:rep.data.refresh,
                         username:rep.data.username,
-                        trusted_dev: true,
+                        user_id:rep.data.user_id,
                     }))
                     props.handleClose()
                     // Once we close the activate we're just going to redirect to home page 
