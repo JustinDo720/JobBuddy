@@ -23,6 +23,7 @@ export default function Register(){
 
     const [showFP, setShowFP] = useState(false)
     const [fd, setFD] = useState({})
+    const [fdErr, setFDErr] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -32,14 +33,23 @@ export default function Register(){
         e.preventDefault()
         console.log(fd)
         axios.post(`${baseUrl}/users/api/token/`, fd).then((rep)=>{
-            console.log(rep.data)
             dispatch(setActivation({
                 acc_activated: true,
                 access_token:rep.data.access,
                 refresh_token:rep.data.refresh,
+                username:rep.data.username,
                 trusted_dev: fd['trust_device']?true:false
             }))
             navigate('/')
+        }).catch((e)=>{
+            console.log(e.response)
+            if(e.response.data.detail){
+                setFDErr((prevErr)=>({
+                    ...prevErr,
+                    'detail': "No account found with this email and password."
+                }))
+            }
+          
         })
     }
 
@@ -136,6 +146,21 @@ export default function Register(){
                                     <Link onClick={toggleShowFP} className='no-underline-link' style={{ fontSize: '1.12rem'}}>Forgot Password</Link>
                                 </Col>
                             </Row>
+                            {fdErr?
+                                <>
+                                    <Row className="justify-content-md-center" style={{padding:'15px'}}>
+                                        <Col xs={12} md={12}>
+                                            {Object.values(fdErr).map(err=>(
+                                                 <p style={{fontSize:'0.8rem',color:'red'}}>
+                                                    {err}
+                                                 </p>
+                                            ))}  
+                                        </Col>
+                                    </Row>
+                                </>
+                            
+                            :<></>}
+                            
 
                             <div className="d-grid gap-2" style={{padding:'15px'}}>
                                 <Button variant="success" type='submit'>

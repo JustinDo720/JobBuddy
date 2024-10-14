@@ -123,10 +123,10 @@ We need to make sure we hook up **redux** for state management. This allows us t
     - [x] After auth display username 
   - [x] Success Confirmation Page (LocalStorage to automatically sign our users)
   - [x] Display err message if form isn't valids 
-  - [x] (1/2) Deal with resend confirmation, update username, update password...
+  - [x] (2/2) Deal with resend confirmation, update username, update password...
     - [x] Tomorrow: Work on password reset 
   - [x] Tomorrow: Work on Redirecting Login, Setting username, Redirecting after Register
-  - [ ] Reset Username 
+  - [x] Reset Email (bceause this is what's used to auth) & Password for **auth** users
 
 2. **Display Jobs on Home page**
   - [ ] Jobs must be of the User
@@ -148,3 +148,8 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [ ] Add a place where we could View those Images (Perhaps a Modal Slideshow)
 
 
+Things to Work on post Launch:
+1) Goals + Custom Resource?
+1) Charting 
+1) Reset Emails (Change message?)
+1) Landing Page then dashboard link

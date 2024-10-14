@@ -4,10 +4,16 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { setActivation } from './redux/Activation/activation_action';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegActivate(props){
     // Trying using Redux for this, You just need to do activate, If activate then display a checkmark and close the modal or a banner
     const isActivated = useSelector((state) => state.activate.acc_activated);
+    const baseUrl = useSelector((state)=>state.api_url.backendApiUrl)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(()=>{
        // If this modal is open, that means we're waiting for the confirmation 
@@ -15,14 +21,31 @@ export default function RegActivate(props){
         if (props.show){
             let intervalId = null
 
-            const checkAccountActivation = () => {
+            const checkAccountActivation = async () => {
                 const accActivated = localStorage.getItem('acc_activated');
     
                 if (accActivated === 'true') {
                     // if the accActivated then let's close the modal 
                     console.log('We are good')
                     clearInterval(intervalId);
+                    // Now we login our users after the acc is activated 
+                    const fd = {
+                        email: props.email,
+                        password: props.password
+                    }
+                    // Make this async so that when we navigate it will recognize your store 
+                    const rep = await axios.post(`${baseUrl}/users/api/token/`, fd)
+                    
+                    dispatch(setActivation({
+                        acc_activated: true,
+                        access_token:rep.data.access,
+                        refresh_token:rep.data.refresh,
+                        username:rep.data.username,
+                        trusted_dev: true,
+                    }))
                     props.handleClose()
+                    // Once we close the activate we're just going to redirect to home page 
+                    navigate('/')
                 } else {
                     console.log('We are running which is still good')
                 }

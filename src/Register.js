@@ -33,8 +33,6 @@ export default function Register(){
 
     const handleClose = ()=>{
         setShowRC(false)
-        // Once we close the activate we're just going to redirect to home page 
-        navigate('/')
     }
 
     const [showRA, setShowRA] = useState(false)
@@ -241,7 +239,7 @@ export default function Register(){
 
         {/* Confirmation Modal */}
         <ResendConfirmation show={showRC} handleClose={handleClose}></ResendConfirmation>
-        <RegActivate show={showRA} handleClose={handleCloseRA} email={formData.email}></RegActivate>
+        <RegActivate show={showRA} handleClose={handleCloseRA} email={formData.email} password={formData.password}></RegActivate>
 
     </>
 }

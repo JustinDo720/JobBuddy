@@ -41,12 +41,11 @@ export default function ActivateSuccess(){
                 
                 </p>
                 <p className="text-center text-muted">
-                Return to the dashboard or continue with sign-in.
+                Return to the dashboard or previous tab to be sign-in.
                 </p>
                 <Row className="mt-4">
-                <Col className="d-flex justify-content-around">
+                <Col className="d-flex justify-content-center">
                     <Button variant="outline-primary" href="/">Go to Home</Button>
-                    <Button variant="outline-secondary" href="/login">Sign In</Button>
                 </Col>
                 </Row>
             </Card>

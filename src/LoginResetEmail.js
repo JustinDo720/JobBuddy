@@ -14,7 +14,7 @@ import Toast from 'react-bootstrap/Toast';
 // Redux
 import { useSelector } from 'react-redux';
 
-export default function ResetPassword(){
+export default function ResetEmail(){
 
     const { uid, token } = useParams();
     const [fd, setFD] = useState({});
@@ -35,11 +35,11 @@ export default function ResetPassword(){
     const subForm = (e) => {
         e.preventDefault()
         if(fd.new_pass === fd.conf_new_pass){
-            axios.post(`${backendApiUrl}/users/auth/users/reset_password_confirm/`,{
+            axios.post(`${backendApiUrl}/users/auth/users/reset_email_confirm/`,{
                 uid: uid,
                 token: token,
-                new_password: fd['new_pass'],
-                re_new_password: fd['conf_new_pass']
+                new_email: fd['new_email'],
+                re_new_email: fd['conf_new_email']
             }).then((rep)=>{
                 setLoading(true)
                 showToast(true)
@@ -48,8 +48,6 @@ export default function ResetPassword(){
                     setLoading(false)
                     if(localStorage.getItem('access_token')){
                         nav('/')
-                    } else {
-                        nav('/login')
                     }
                     
                 } 
@@ -65,7 +63,7 @@ export default function ResetPassword(){
                 if (e.response.data.new_password){
                     setFDErr((prevErr)=>({
                         ...prevErr,
-                        'new_pass': e.response.data.new_password
+                        'new_email': e.response.data.new_email
                     }))
                 }
             })
@@ -82,22 +80,22 @@ export default function ResetPassword(){
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <Card style={{ width: '100%', maxWidth: '500px', padding: '20px' }}>
                 <h2 className='text-center'>
-                    Resetting Password
+                    Resetting Email
                 </h2>
                 <p className="text-center text-muted">
-                    Enter your new password.
+                    Enter your new email.
                 </p>
                 <Form onSubmit={subForm}>
 
                     <FloatingLabel
                         controlId="floatingInput"
-                        label="New Password"
+                        label="New Email"
                         className="mb-3"
                     >
-                        <Form.Control name='new_pass' onChange={updateForm} type="password" required placeholder="New Password" />
+                        <Form.Control name='new_email' onChange={updateForm} type="Email" required placeholder="New Email" />
                     </FloatingLabel>
-                    <FloatingLabel controlId="floatingPassword" label="Confirm New Password">
-                        <Form.Control name='conf_new_pass' onChange={updateForm} type="password" required placeholder="Confirm New Password" />
+                    <FloatingLabel controlId="floatingEmail" label="Confirm New Email">
+                        <Form.Control name='conf_new_email' onChange={updateForm} type="email" required placeholder="Confirm New Email" />
                     </FloatingLabel>
                     {fd?
                       <>
@@ -114,7 +112,7 @@ export default function ResetPassword(){
                     :<></>}        
                     <Row className="mt-4">
                         <Col className="d-flex justify-content-center">
-                            <Button variant="outline-danger" type='submit'>Reset Password</Button>
+                            <Button variant="outline-danger" type='submit'>Reset Email</Button>
                         </Col>
                     </Row>
                     { loading ?
@@ -140,10 +138,10 @@ export default function ResetPassword(){
             >
             <Toast.Header>
                 <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                <strong className="me-auto">Password Reset</strong>
+                <strong className="me-auto">Email Reset</strong>
             </Toast.Header>
             <Toast.Body>
-                Your password has been reset! Please login with your new password.
+                Your email has been reset! Please login with your new email.
             </Toast.Body>
         </Toast>
     </>)

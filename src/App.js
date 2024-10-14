@@ -12,10 +12,14 @@ import ActivateSuccess from './RegisterActivateSuccess';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from './redux/Logout/logout_action';
 import { useNavigate } from 'react-router-dom';
 import ResetPassword from './LoginResetPassword';
+import { setActivation } from './redux/Activation/activation_action';
+import ForgotPassword from './LoginForgotPassword';
+import ChangeEmail from './LoginChangeEmail';
+import ResetEmail from './LoginResetEmail';
 
 function App() {
 
@@ -24,6 +28,10 @@ function App() {
   const username = localStorage.getItem('username') || ''
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const baseURL = useSelector((state)=>state.api_url.backendApiUrl)
+
+  const [showFP, setShowFP] = useState(false)
+  const [showCE, setShowCE] = useState(false)
 
   // Since ONLY App has our logout button
   const logout = ()=>{
@@ -81,13 +89,11 @@ function App() {
                     style={{'margin-left': '20px'}}
                     >
                     <NavDropdown.Item href="#action/3.1">View Profile</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      Change Username
+                    <NavDropdown.Item onClick={()=>{setShowCE(true)}}>
+                      Change Email
                     </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <Link to='register/' className='text-reset text-decoration-none'>
-                        Forgot Password
-                      </Link>
+                    <NavDropdown.Item onClick={()=>{setShowFP(true)}}>
+                      Forgot Password
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.ItemText style={{textAlign:'center'}}>
@@ -109,9 +115,13 @@ function App() {
           <Route path='login/' element={<Login/>}/>
           <Route path='register/' element={<Register/>}/>
           <Route path='activate/:uid/:token' element={<ActivateSuccess/>}/>
+          <Route path='email/reset/confirm/:uid/:token' element={<ResetEmail/>}/>
           <Route path='password/reset/confirm/:uid/:token' element={<ResetPassword/>}/>
         </Routes>
       
+        {/* Modals */}
+        <ForgotPassword show={showFP} handleClose={()=>{setShowFP(false)}}></ForgotPassword>
+        <ChangeEmail show={showCE} handleClose={()=>{setShowCE(false)}}></ChangeEmail>
     </>
 
   );

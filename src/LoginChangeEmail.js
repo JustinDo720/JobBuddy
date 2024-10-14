@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Toast from 'react-bootstrap/Toast'; 
 import axios from 'axios';
 
-export default function ForgotPassword(props){
+export default function ChangeEmail(props){
     const baseUrl = useSelector((state)=>state.api_url.backendApiUrl)
     // same as resend confirmation 
     const [email, setEmail] = useState('')
@@ -22,7 +22,7 @@ export default function ForgotPassword(props){
     const submitForm = (e)=>{
         e.preventDefault()
         setLoading(true)
-        axios.post(`${baseUrl}/users/auth/users/reset_password/`, {email: email}).then((rep)=>{
+        axios.post(`${baseUrl}/users/auth/users/reset_email/`, {email: email}).then((rep)=>{
             setLoading(false)
             showToast(true)
             props.handleClose()
@@ -44,7 +44,7 @@ export default function ForgotPassword(props){
                     onHide={props.handleClose}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Forgot Password</Modal.Title>
+                        <Modal.Title>Change Email</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={(e)=>submitForm(e)}>
@@ -67,7 +67,7 @@ export default function ForgotPassword(props){
                             <br/>
                             <div style={{textAlign:'center', padding:'15px'}}>
                                 <Button variant='warning' style={{color:'white'}} type='submit'>
-                                    Reset Password
+                                    Switch Email
                                 </Button>
                             </div>
                             <br></br>
@@ -93,7 +93,7 @@ export default function ForgotPassword(props){
                 >
                 <Toast.Header>
                     <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                    <strong className="me-auto">Password Reset email Sent!</strong>
+                    <strong className="me-auto">Switch email has been Sent!</strong>
                 </Toast.Header>
                 <Toast.Body>An email has been sent. Please check your inbox. Remember, an email will only appear if there's a user with that email.</Toast.Body>
             </Toast>
