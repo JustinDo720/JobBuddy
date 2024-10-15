@@ -142,7 +142,8 @@ We need to make sure we hook up **redux** for state management. This allows us t
 
 5. **Editing and Deleting & Job Details**
   - [x] Ensure these HTTP methods follow our backend 
-  - [ ] Job Details also reflect what we have in the database 
+  - [x] Job Details also reflect what we have in the database 
+    - Reformat salary to a *$* format 
 
 6. **Images**
   - [ ] Backend Storage isn't fully completed yet; however, we could add that to our form field

@@ -7,11 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUpRightFromSquare  } from '@fortawesome/free-solid-svg-icons'
 import { useEffect } from 'react';
 import './styles/modalStyle.css'
+import { formatSalary } from './utils/formatSalary';
 
 
 function JobTableDetails(props){
 
     const job_details = props.job_details
+    const date = new Date(job_details.job_post_date)
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options);
 
     const renderDetails = (details, msg) =>{
         // return details.length > 0 ? details : msg;
@@ -37,29 +41,43 @@ function JobTableDetails(props){
                 <Container>
                     <Row>
                         <Col>
-                            <Modal.Title style={{fontSize: '30px'}}>
-                                { job_details.job_name } @ { job_details.company_name }
-                            </Modal.Title>
+                            {job_details.job_link? 
+                                <Modal.Title style={{fontSize: '30px'}}>
+                                    <a href={job_details.job_link} target='_blank'>
+                                        { job_details.job_name }
+                                    </a> @ { job_details.company_name }
+                                </Modal.Title>
+                            :  <Modal.Title style={{fontSize: '30px'}}>
+                                    { job_details.job_name } @ { job_details.company_name }
+                                </Modal.Title>}
+                           
                         </Col>
-                        <Col>
+                        {/* <Col>
                             <a href={job_details.job_link} target='_blank'> 
                                 <Button >
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> 
                                 </Button>
                             </a>
-                        </Col>
+                        </Col> */}
                     </Row>                
                 </Container>
             </Modal.Header>
             <Modal.Body style={{ fontSize: '20px' }}>
+                <Container>
+                    <p muted style={{ fontSize: '15px'}}>
+                        Posted: {formattedDate}
+                    </p>
+                </Container>
+                
                 <Container style={{padding: '10px'}}>
+                
                     <b>
                         Current Status:
                     </b> { job_details.status }
                     <br style={{ marginBottom: '10px' }}></br>
                     <b>
                         Salary: 
-                    </b> { renderDetails(job_details.salary,"Salary not mentioned.")}
+                    </b> { renderDetails(formatSalary(job_details.salary),"Salary not mentioned.")}
                     <br/>
                     <b>
                         Location:

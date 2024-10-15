@@ -17,6 +17,7 @@ import JobTableDeleteJob from './JobTableDeleteJob';
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import Toast from 'react-bootstrap/Toast'; 
+import { formatSalary } from './utils/formatSalary';
 
 export default function JobTable(){
     
@@ -585,7 +586,7 @@ export default function JobTable(){
                             </a>
                             </td>
                             <td>{job.company_name}</td>
-                            <td>{(job.salary > 0)?job.salary: 'N/A'}</td>
+                            <td>{(job.salary > 0)?formatSalary(job.salary): 'N/A'}</td>
                             <td>{job.status}</td>
                             <td style={{ textAlign: 'center'}}>
                                 {job.link?
