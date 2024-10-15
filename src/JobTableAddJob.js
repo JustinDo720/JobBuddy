@@ -129,13 +129,16 @@ function JobTableAddJob(props){
             "salary": Number(formData.salary),
             "job_link": formData.link,
             "job_summary": formData.job_summary,
-            "job_state": formData.state
+            "job_state": formData.state,
+            "status": formData.status
         }
         
-        console.log(formData)
+        console.log(api_fd)
         console.log(loc)
         axios.post(`${baseURL}/jobs/`, api_fd,{headers:{Authorization:`Bearer ${access_token}`}}).then((rep)=>{
+            console.log(rep.data)
             props.refreshJobs()
+            props.toasting()
             props.handleClose()
 
         }).catch((e)=>{

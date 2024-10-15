@@ -16,6 +16,7 @@ import JobTableEditJob from './JobTableEditJob';
 import JobTableDeleteJob from './JobTableDeleteJob';
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import Toast from 'react-bootstrap/Toast'; 
 
 export default function JobTable(){
     
@@ -298,6 +299,9 @@ export default function JobTable(){
     const [jobs, setJobs] = useState([])
     const backendApiUrl = useSelector((state)=>state.api_url.backendApiUrl)
     const {user_id, access_token, acc_activated} = useSelector((state)=>state.activate)
+    const [toast, showToast] = useState(false)
+    const [etoast, showToastE] = useState(false)
+    const [dtoast, showToastD] = useState(false)
 
     const fetchJobs = ()=>{
         if(acc_activated){
@@ -357,6 +361,7 @@ export default function JobTable(){
 
     const changeShowEditing = (job_object)=>{
         setChosenEditingJob(job_object)
+        console.log(job_object)
         setShowEditing(!showEditing)
     }
     const closeShowEditing = ()=>setShowEditing(false)
@@ -385,6 +390,18 @@ export default function JobTable(){
     
     // We cannot use checkedFilter because it's not an array we could loop over with .map() function and so fourth 
     const checkedFilterArray = Object.keys(checkedFilter).filter(key=>checkedFilter[key]) // Checking if the Key has a value. Which allows us to filter based on this array
+
+    // Toast
+    const toggleToast = ()=>{
+        showToast(true)
+    }
+    const toggleToastEdit = ()=>{
+        showToastE(true)
+    }
+    const toggleToastDel = ()=>{
+      showToastD(true)  
+    }
+
 
     const checkedStatus = (e) => {
         const {name, value, checked} = e.target
@@ -568,7 +585,7 @@ export default function JobTable(){
                             </a>
                             </td>
                             <td>{job.company_name}</td>
-                            <td>{job.salary}</td>
+                            <td>{(job.salary > 0)?job.salary: 'N/A'}</td>
                             <td>{job.status}</td>
                             <td style={{ textAlign: 'center'}}>
                                 {job.link?
@@ -602,11 +619,58 @@ export default function JobTable(){
             {/* Job Details Modal */}
             <JobTableDetails show={ show } handleClose={ handleClose } job_details={ chosen_job }></JobTableDetails>
             {/* Add Job Modal */}
-            <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal } refreshJobs={fetchJobs}></JobTableAddJob>
+            <JobTableAddJob show={ showAddJob} handleClose= { closeAddJobModal } refreshJobs={fetchJobs} toasting={ toggleToast }></JobTableAddJob>
             {/* Edit Job Modal */}
-            <JobTableEditJob show={ showEditing } handleClose= { closeShowEditing } job_object={ chosenEditingJob }></JobTableEditJob>
+            <JobTableEditJob show={ showEditing } handleClose= { closeShowEditing } job_object={ chosenEditingJob } refreshJobs={fetchJobs} toasting={ toggleToastEdit }></JobTableEditJob>
             {/* Delete Job Modal */}
-            <JobTableDeleteJob show= { showDeleting } handleClose={closeShowDeleting} job_object={ chosenDeletingJob }></JobTableDeleteJob>
+            <JobTableDeleteJob show= { showDeleting } handleClose={closeShowDeleting} job_object={ chosenDeletingJob } refreshJobs={fetchJobs} toasting={ toggleToastDel }></JobTableDeleteJob>
+
+            {/* Toast */}
+            <Toast bg='success' 
+                className="d-inline-block m-1" 
+                style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1050 }}
+                onClose={() => showToast(false)} 
+                show={toast}
+                autohide
+                >
+                <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                    <strong className="me-auto">Job Added</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    A Job has been successfully added to your list.
+                </Toast.Body>
+            </Toast>
+            <Toast bg='warning' 
+                className="d-inline-block m-1" 
+                style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1050 }}
+                onClose={() => showToastE(false)} 
+                show={etoast}
+                autohide
+                >
+                <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                    <strong className="me-auto">Job Edited</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    A Job has been successfully edited.
+                </Toast.Body>
+            </Toast>
+            <Toast bg='danger' 
+                className="d-inline-block m-1" 
+                style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1050 }}
+                onClose={() => showToastD(false)} 
+                show={dtoast}
+                autohide
+                >
+                <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                    <strong className="me-auto">Job Removed</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    A Job has been successfully deleted.
+                </Toast.Body>
+            </Toast>
         </div>
         </>
     )

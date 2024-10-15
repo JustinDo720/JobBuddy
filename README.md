@@ -84,21 +84,21 @@ Technologies used:
 ## Suggestions & Additional Tasks
 
 1. **Authentication**:
-   - [ ] Implement user authentication (Login/Register) using Firebase or JWT (with Django).
-   - [ ] Store user-specific job data in the database.
+   - [x] Implement user authentication (Login/Register) using Firebase or JWT (with Django).
+   - [x] Store user-specific job data in the database.
 
 2. **Persistent Data**:
-   - [ ] Connect the table and forms to a backend (Django) to store jobs in a database.
-   - [ ] Ensure the data persists after refreshing the page.
+   - [x] Connect the table and forms to a backend (Django) to store jobs in a database.
+   - [x] Ensure the data persists after refreshing the page.
 
 3. **Responsive Design**:
-   - [ ] Make the layout responsive for mobile and tablet views.
+   - [x] Make the layout responsive for mobile and tablet views.
 
 4. **Notifications**:
    - [ ] Implement reminders or notifications for upcoming interviews and deadlines.
 
 5. **Filter/Search**:
-   - [ ] Add a filter option to search for jobs based on status (Applied, Interviewing, etc.).
+   - [x] Add a filter option to search for jobs based on status (Applied, Interviewing, etc.).
 
 6. **API Integration**:
    - [ ] (Optional) Integrate LinkedIn or Glassdoor APIs to pull in job-related data.
@@ -133,15 +133,16 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [x] If no job present display a message 
 
 3. **Banners**
-  - [ ] Upon a user finished action display a banner/alert 
+  - [x] Upon a user finished action display a banner/alert 
     - Posting, Editing, Removing etc
 
 4. **Adding Jobs**
   - [x] Grab the Status and State options to update our form
   - [x] Posting should now use our RESTAPI to post data to a specific User 
 
-5. **Editing and Deleting**
-  - [ ] Ensure these HTTP methods follow our backend 
+5. **Editing and Deleting & Job Details**
+  - [x] Ensure these HTTP methods follow our backend 
+  - [ ] Job Details also reflect what we have in the database 
 
 6. **Images**
   - [ ] Backend Storage isn't fully completed yet; however, we could add that to our form field
@@ -154,3 +155,6 @@ Things to Work on post Launch:
 1) Reset Emails (Change message?)
 1) Landing Page then dashboard link
 1) Access to users could only be FOR THAT USER (if i have an access token i could access other peoples job post via id )
+1) Nav Guards
+1) Refactor?
+  - States and Status choices called on modal instead of parent 
