@@ -146,9 +146,19 @@ We need to make sure we hook up **redux** for state management. This allows us t
     - Reformat salary to a *$* format 
 
 6. **Images**
-  - [ ] Backend Storage isn't fully completed yet; however, we could add that to our form field
+  - [x] Backend Storage isn't fully completed yet; however, we could add that to our form field
+  - [x] REST API tied with Amazon S3
+  - [x] Add a file field to our Add Job form then work to POST 
+    - Posting Multiple Images as well
+  - [x] Work on the Progress Bar
+  - [ ] Form Add Form, It reappears with same data from previous formData so here are some methods:
+    - Getters clear everytime prop shows 
+    - once closed /posted make sure the data clears up 
   - [ ] Add a place where we could View those Images (Perhaps a Modal Slideshow)
 
+7. **Refreshing Tokens**
+  - [ ] Refresh token availabble 
+  - [ ] Use Refresh token to obtain a new auth token
 
 Things to Work on post Launch:
 1) Goals + Custom Resource?

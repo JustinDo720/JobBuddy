@@ -10,82 +10,26 @@ import { useState, useEffect } from 'react'
 import './styles/modalStyle.css'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 function JobTableAddJob(props){
 
     const baseURL = useSelector((state)=>state.api_url.backendApiUrl)
     const {user_id, access_token} = useSelector((state)=>state.activate)
-    const [selectedStates, setSelectedStates] = useState('')
+    const [imgs, setImgs] = useState([])
     const [states, setStates] = useState([])
     const [status, setStatus] = useState([])
+    // Stirng at first then we'll change to digit afterwards
+    const [imgPercent, setImgPercent] = useState('')
+    const [imgContrib, setImgContrib] = useState(0)
 
     useEffect(()=>{
         axios.get(`${baseURL}/choices/`).then((rep)=>{
-            console.log(rep.data)
             setStatus(rep.data.status_choices)
             setStates(rep.data.state_choices.slice(1))
         })
     },[props.show])
     
-    // const states = [
-    //     { abbr: "AL", name: "Alabama" },
-    //     { abbr: "AK", name: "Alaska" },
-    //     { abbr: "AZ", name: "Arizona" },
-    //     { abbr: "AR", name: "Arkansas" },
-    //     { abbr: "CA", name: "California" },
-    //     { abbr: "CO", name: "Colorado" },
-    //     { abbr: "CT", name: "Connecticut" },
-    //     { abbr: "DE", name: "Delaware" },
-    //     { abbr: "FL", name: "Florida" },
-    //     { abbr: "GA", name: "Georgia" },
-    //     { abbr: "HI", name: "Hawaii" },
-    //     { abbr: "ID", name: "Idaho" },
-    //     { abbr: "IL", name: "Illinois" },
-    //     { abbr: "IN", name: "Indiana" },
-    //     { abbr: "IA", name: "Iowa" },
-    //     { abbr: "KS", name: "Kansas" },
-    //     { abbr: "KY", name: "Kentucky" },
-    //     { abbr: "LA", name: "Louisiana" },
-    //     { abbr: "ME", name: "Maine" },
-    //     { abbr: "MD", name: "Maryland" },
-    //     { abbr: "MA", name: "Massachusetts" },
-    //     { abbr: "MI", name: "Michigan" },
-    //     { abbr: "MN", name: "Minnesota" },
-    //     { abbr: "MS", name: "Mississippi" },
-    //     { abbr: "MO", name: "Missouri" },
-    //     { abbr: "MT", name: "Montana" },
-    //     { abbr: "NE", name: "Nebraska" },
-    //     { abbr: "NV", name: "Nevada" },
-    //     { abbr: "NH", name: "New Hampshire" },
-    //     { abbr: "NJ", name: "New Jersey" },
-    //     { abbr: "NM", name: "New Mexico" },
-    //     { abbr: "NY", name: "New York" },
-    //     { abbr: "NC", name: "North Carolina" },
-    //     { abbr: "ND", name: "North Dakota" },
-    //     { abbr: "OH", name: "Ohio" },
-    //     { abbr: "OK", name: "Oklahoma" },
-    //     { abbr: "OR", name: "Oregon" },
-    //     { abbr: "PA", name: "Pennsylvania" },
-    //     { abbr: "RI", name: "Rhode Island" },
-    //     { abbr: "SC", name: "South Carolina" },
-    //     { abbr: "SD", name: "South Dakota" },
-    //     { abbr: "TN", name: "Tennessee" },
-    //     { abbr: "TX", name: "Texas" },
-    //     { abbr: "UT", name: "Utah" },
-    //     { abbr: "VT", name: "Vermont" },
-    //     { abbr: "VA", name: "Virginia" },
-    //     { abbr: "WA", name: "Washington" },
-    //     { abbr: "WV", name: "West Virginia" },
-    //     { abbr: "WI", name: "Wisconsin" },
-    //     { abbr: "WY", name: "Wyoming" },
-    //   ];
-
-    // const status = [
-    //     'Applied',
-    //     'Interview',
-    //     'Offer',
-    //     'Rejected'
-    // ]
 
     // Default dictionary keys of all <Form.Control name=''> attribute for us to use the spread operator
     const [formData, setFormData] = useState({
@@ -115,10 +59,50 @@ function JobTableAddJob(props){
             [name]:value
         })
     }
+    
+    const updateFile = (e) => {
+        // You need to treat this as an array. We have multiple files; therefore, we're going to add them all to our "imgs" state.
+        const selectedFiles = Array.from(e.target.files);
+        // Make sure this isn't a dictionary but rather an array because we're going to forEach this during the posting phase
+        setImgs(prevImgs=>[
+            ...prevImgs,
+            // Spread operator for our array
+            ...selectedFiles
+        ])
+    }
+    
+    const closing_modal = ()=>{
+        props.refreshJobs()
+        props.toasting()
+        props.handleClose()
+    }
+
+    const uploadImage = (img, job_id)=>{
+        // Making a new FormData because this is dealing with files 
+        const img_fd = new FormData();
+        // This is going to making our img_fd = {job:id, job_img:img_obj}
+        img_fd.append('job', job_id)
+        img_fd.append('job_img', img)
+
+        axios.post(`${baseURL}/jobs/images/`,img_fd, {headers:{Authorization:`Bearer ${access_token}`,'Content-Type': 'multipart/form-data'}}).then((rep)=>{
+            setImgPercent((prevImgPercent) => {
+                const currentImgPercent = Number(prevImgPercent) || 0; // Converts to number, defaults to 0 if NaN
+                const new_pert = currentImgPercent + imgContrib
+                console.log(new_pert)
+
+                // Here we're going to check if our new percent is >= 100 
+                if(new_pert => 100){
+                    closing_modal()
+                }
+                return new_pert;
+            });
+
+            
+        })
+    }
 
     const submitForm = (e) => {
         e.preventDefault()
-        let loc = location()
         const api_fd = {
             // Required:
             "job_name": formData.job_name,
@@ -132,19 +116,22 @@ function JobTableAddJob(props){
             "job_state": formData.state,
             "status": formData.status
         }
-        
-        console.log(api_fd)
-        console.log(loc)
+
         axios.post(`${baseURL}/jobs/`, api_fd,{headers:{Authorization:`Bearer ${access_token}`}}).then((rep)=>{
-            console.log(rep.data)
-            props.refreshJobs()
-            props.toasting()
-            props.handleClose()
+            // We need to check if our user is submitting an image.
+            // Once we post we should have the new jobs ID so we could use that to post our image 
+            if(imgs){
+                setImgContrib(Number((100 / imgs.length).toFixed(2)))
+                imgs.forEach(img=>{
+                    uploadImage(img, rep.data.id)
+                })
+            } else {
+                closing_modal()
+            }
 
         }).catch((e)=>{
-            console.log(e.response)
+            console.log(e)
         })
-        console.log(api_fd)
         
     }
 
@@ -260,6 +247,18 @@ function JobTableAddJob(props){
                                 <InputGroup.Text>Job Summary</InputGroup.Text>
                                 <Form.Control as="textarea" aria-label="job summary" name='job_summary' value={formData.job_summary} onChange={ updateField }/>
                             </InputGroup>
+                            </Col>
+                        </Row>
+                        <Row className='mb-3'>
+                            <Col>
+                                <Form.Group controlId="formFile" className="mb-3">
+                                    <Form.Label>Images</Form.Label>
+                                    <Form.Control type="file" size="sm" aria-describedby="multi_image_help" multiple onChange={updateFile}/>
+                                    <Form.Text id="multi_image_help" style={{fontSize:'0.75rem'}} muted>
+                                        Optional: You may select multiple images at once by holding your "Ctrl" key and clicking on your desired file.
+                                    </Form.Text>
+                                </Form.Group>
+                                {typeof imgPercent === 'number'?<ProgressBar min={0} max={100} now={imgPercent} label={`${imgPercent}%`} />:<></>}
                             </Col>
                         </Row>
                         <Row >

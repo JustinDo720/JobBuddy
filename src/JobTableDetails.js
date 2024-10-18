@@ -77,7 +77,7 @@ function JobTableDetails(props){
                     <br style={{ marginBottom: '10px' }}></br>
                     <b>
                         Salary: 
-                    </b> { renderDetails(formatSalary(job_details.salary),"Salary not mentioned.")}
+                    </b> { job_details.salary?formatSalary(job_details.salary):"Salary not mentioned."}
                     <br/>
                     <b>
                         Location:
