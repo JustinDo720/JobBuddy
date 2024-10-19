@@ -71,9 +71,26 @@ function JobTableAddJob(props){
         ])
     }
     
-    const closing_modal = ()=>{
-        props.refreshJobs()
-        props.toasting()
+    const closing_modal = (e, completed=false)=>{
+        e.preventDefault()
+        // Make sure we clear out formdata
+        setFormData(
+            {
+                job_name: '',
+                company_name: '',
+                link: '',
+                salary: '',
+                city: '',
+                state: '',
+                status: '',
+                job_summary: '',
+            }        
+        )
+        console.log(formData)
+        if(completed){
+            props.refreshJobs()
+            props.toasting()
+        }
         props.handleClose()
     }
 
@@ -92,7 +109,7 @@ function JobTableAddJob(props){
 
                 // Here we're going to check if our new percent is >= 100 
                 if(new_pert => 100){
-                    closing_modal()
+                    closing_modal(true)
                 }
                 return new_pert;
             });
@@ -126,7 +143,7 @@ function JobTableAddJob(props){
                     uploadImage(img, rep.data.id)
                 })
             } else {
-                closing_modal()
+                closing_modal(true)
             }
 
         }).catch((e)=>{
@@ -138,7 +155,6 @@ function JobTableAddJob(props){
     return (
         <>
         <Modal show={props.show} 
-               onHide={(event) => {props.handleClose(event)}}
                size="lg"
                backdrop="static"
                aria-labelledby="contained-modal-title-vcenter"
@@ -272,7 +288,7 @@ function JobTableAddJob(props){
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={(event) => {props.handleClose(event)}}>
+            <Button variant="secondary" onClick={(event) => {closing_modal(event)}}>
                 Close
             </Button>
             </Modal.Footer>

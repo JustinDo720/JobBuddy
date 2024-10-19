@@ -151,10 +151,10 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [x] Add a file field to our Add Job form then work to POST 
     - Posting Multiple Images as well
   - [x] Work on the Progress Bar
-  - [ ] Form Add Form, It reappears with same data from previous formData so here are some methods:
+  - [x] Form Add Form, It reappears with same data from previous formData so here are some methods:
     - Getters clear everytime prop shows 
     - once closed /posted make sure the data clears up 
-  - [ ] Add a place where we could View those Images (Perhaps a Modal Slideshow)
+  - [x] Add a place where we could View those Images (Perhaps a Modal Slideshow)
 
 7. **Refreshing Tokens**
   - [ ] Refresh token availabble 
