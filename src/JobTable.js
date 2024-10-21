@@ -14,7 +14,7 @@ import JobTableDetails from './JobTableDetails';
 import JobTableAddJob from './JobTableAddJob'
 import JobTableEditJob from './JobTableEditJob';
 import JobTableDeleteJob from './JobTableDeleteJob';
-import axios from 'axios'
+import axios from './api/axiosConfig'
 import { useSelector } from 'react-redux'
 import Toast from 'react-bootstrap/Toast'; 
 import { formatSalary } from './utils/formatSalary';

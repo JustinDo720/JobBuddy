@@ -8,9 +8,10 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useState, useEffect } from 'react'
 import './styles/modalStyle.css'
-import axios from 'axios';
+import axios from './api/axiosConfig'
 import { useSelector } from 'react-redux';
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import Spinner from 'react-bootstrap/Spinner';
 
 function JobTableAddJob(props){
 
@@ -21,14 +22,14 @@ function JobTableAddJob(props){
     const [status, setStatus] = useState([])
     // Stirng at first then we'll change to digit afterwards
     const [imgPercent, setImgPercent] = useState('')
-    const [imgContrib, setImgContrib] = useState(0)
+    const [loading, setLoading] = useState(false)
 
     useEffect(()=>{
         axios.get(`${baseURL}/choices/`).then((rep)=>{
             setStatus(rep.data.status_choices)
             setStates(rep.data.state_choices.slice(1))
         })
-    },[props.show])
+    },[])
     
 
     // Default dictionary keys of all <Form.Control name=''> attribute for us to use the spread operator
@@ -71,8 +72,7 @@ function JobTableAddJob(props){
         ])
     }
     
-    const closing_modal = (e, completed=false)=>{
-        e.preventDefault()
+    const closing_modal = (completed=false)=>{
         // Make sure we clear out formdata
         setFormData(
             {
@@ -84,9 +84,13 @@ function JobTableAddJob(props){
                 state: '',
                 status: '',
                 job_summary: '',
+
             }        
         )
-        console.log(formData)
+        // In case our users set an image we reset our properties back to default
+        setLoading(false)
+        setImgs([])
+
         if(completed){
             props.refreshJobs()
             props.toasting()
@@ -102,24 +106,14 @@ function JobTableAddJob(props){
         img_fd.append('job_img', img)
 
         axios.post(`${baseURL}/jobs/images/`,img_fd, {headers:{Authorization:`Bearer ${access_token}`,'Content-Type': 'multipart/form-data'}}).then((rep)=>{
-            setImgPercent((prevImgPercent) => {
-                const currentImgPercent = Number(prevImgPercent) || 0; // Converts to number, defaults to 0 if NaN
-                const new_pert = currentImgPercent + imgContrib
-                console.log(new_pert)
-
-                // Here we're going to check if our new percent is >= 100 
-                if(new_pert => 100){
-                    closing_modal(true)
-                }
-                return new_pert;
-            });
-
             
+
         })
     }
 
     const submitForm = (e) => {
         e.preventDefault()
+        setLoading(true)
         const api_fd = {
             // Required:
             "job_name": formData.job_name,
@@ -131,14 +125,14 @@ function JobTableAddJob(props){
             "job_link": formData.link,
             "job_summary": formData.job_summary,
             "job_state": formData.state,
-            "status": formData.status
+            // applied is our default so if we have status:'' that just means the user chose applied 
+            "status": formData.status === ''? 'applied' :formData.status
         }
 
         axios.post(`${baseURL}/jobs/`, api_fd,{headers:{Authorization:`Bearer ${access_token}`}}).then((rep)=>{
             // We need to check if our user is submitting an image.
             // Once we post we should have the new jobs ID so we could use that to post our image 
-            if(imgs){
-                setImgContrib(Number((100 / imgs.length).toFixed(2)))
+            if(imgs.length > 0){
                 imgs.forEach(img=>{
                     uploadImage(img, rep.data.id)
                 })
@@ -274,21 +268,31 @@ function JobTableAddJob(props){
                                         Optional: You may select multiple images at once by holding your "Ctrl" key and clicking on your desired file.
                                     </Form.Text>
                                 </Form.Group>
-                                {typeof imgPercent === 'number'?<ProgressBar min={0} max={100} now={imgPercent} label={`${imgPercent}%`} />:<></>}
                             </Col>
                         </Row>
                         <Row >
                             <Col className="d-grid gap-2" style={{ textAlign: 'center'}}>
-                                <Button variant='success' type='submit'>
-                                    Add{formData.job_name.length > 0 && formData.company_name.length > 0?`: ${formData.job_name} @ ${formData.company_name}`:''}
+                                {loading?
+                                <Button variant="primary" disabled>
+                                    <Spinner
+                                    as="span"
+                                    animation="grow"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                    />
+                                    Adding...
                                 </Button>
+                                :<Button variant='success' type='submit'>
+                                    Add{formData.job_name.length > 0 && formData.company_name.length > 0?`: ${formData.job_name} @ ${formData.company_name}`:''}
+                                </Button>}
                             </Col>
                         </Row>
                     </Form>
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={(event) => {closing_modal(event)}}>
+            <Button variant="secondary" onClick={() => {closing_modal()}}>
                 Close
             </Button>
             </Modal.Footer>

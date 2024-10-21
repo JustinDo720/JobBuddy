@@ -20,6 +20,8 @@ import { setActivation } from './redux/Activation/activation_action';
 import ForgotPassword from './LoginForgotPassword';
 import ChangeEmail from './LoginChangeEmail';
 import ResetEmail from './LoginResetEmail';
+import { refreshToken } from './utils/refreshToken';
+import { setNewAccessToken } from './redux/RefreshToken/refresh_action';
 
 function App() {
 
@@ -29,6 +31,7 @@ function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const baseURL = useSelector((state)=>state.api_url.backendApiUrl)
+  const {access_token,refresh_token} = useSelector((state)=>state.activate)
 
   const [showFP, setShowFP] = useState(false)
   const [showCE, setShowCE] = useState(false)
@@ -39,7 +42,38 @@ function App() {
     // It's better to force a refresh because we don't want content remaining if the user is logged out so 
     navigate('/')
     window.location.reload()
-};
+  };
+
+  // useEffect(() => {
+  //   // We don't need to dispatch our setActivation because...
+  //   // Redux initializes all reducer states, and since our activationReducer pulls values from localStorage...
+  //   // our store is populated with those values upon app initialization.
+  //   //
+  //   // These values will remain in the Redux store until the user logs out. 
+  //   // Every time the user registers or logs in, the values are updated in localStorage, 
+  //   // which are then used by the store until the session ends or the user logs out.
+  //   const checkingAccessToken = async()=>{
+  //     if (access_token && refresh_token) {
+  //       // Therefore we create an additional refresh token action/reducer to verify that our access token is still valid
+  //       // If not, it will update the localStorage which then updates the redux store.
+  //       // If the refreshToken expires then we redirect to the login page
+  //       const new_token = await refreshToken(access_token, refresh_token, baseURL)
+  //       // If the new access token doesn't match our current access token, then it changed and our util function works
+  //       if(new_token.length > 0 && new_token != access_token){
+  //         console.log('Access Token Expired; however, refresh token still works so we are getting a new access token')
+  //         dispatch(setNewAccessToken({access_token:new_token}));
+  //         window.location.reload()
+  //       } else if(!new_token){
+  //         // The refresh token has expired or something wrong with our store
+  //         logout()
+  //       }
+  //     }
+  //   }
+
+  //   // Running our async function (because we cannot async useEffect, we created a local anonymous function)
+  //   checkingAccessToken()
+    
+  // });
 
   return (
     <>

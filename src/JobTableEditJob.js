@@ -8,7 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useState, useEffect } from 'react'
 import './styles/modalStyle.css'
-import axios from 'axios';
+import axios from './api/axiosConfig'
 import { useSelector } from 'react-redux';
 
 
@@ -93,7 +93,6 @@ function JobTableEditJob(props){
     // Updating formData state whenever our job_object prop is updated
     useEffect(()=>{
         axios.get(`${baseURL}/choices/`).then((rep)=>{
-            console.log(rep.data)
             setStatus(rep.data.status_choices)
             setStates(rep.data.state_choices.slice(1))
 

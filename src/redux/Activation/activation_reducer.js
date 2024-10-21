@@ -1,5 +1,6 @@
 import { ACTIVATION } from "./activation_action";
 
+
 const initialStore = {
     acc_activated: localStorage.getItem('acc_activated') === 'true', // Check if the stored value is 'true'
     access_token: localStorage.getItem('access_token') || null, // Store the string directly

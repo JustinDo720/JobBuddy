@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
+import axios from './api/axiosConfig'
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';

@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card  from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import axios from 'axios';
+import axios from './api/axiosConfig'
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setActivation } from './redux/Activation/activation_action'; // Import the action

@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card  from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import axios from 'axios';
+import axios from './api/axiosConfig'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';

@@ -9,7 +9,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { useState, useEffect } from 'react'
 import './styles/modalStyle.css'
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import axios from './api/axiosConfig'
 
 function JobTableDeleteJob(props){
 

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import axios from './api/axiosConfig'
 import { setActivation } from './redux/Activation/activation_action';
 import { useNavigate } from 'react-router-dom';
 

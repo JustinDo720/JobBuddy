@@ -157,8 +157,15 @@ We need to make sure we hook up **redux** for state management. This allows us t
   - [x] Add a place where we could View those Images (Perhaps a Modal Slideshow)
 
 7. **Refreshing Tokens**
-  - [ ] Refresh token availabble 
-  - [ ] Use Refresh token to obtain a new auth token
+  - [x] Refresh token availabble 
+  - [x] Use Refresh token to obtain a new auth token
+    - Axios Interceptor to use refresh util function that posts to a jwt verify to return a old/new access token based on condition 
+    - Dispatch action to set localStorage; however, we also use that token for authentication **right away** as opposed to waiting 
+  
+8. Add Job Button close problem
+  - [x] Add Button doesnt close modal
+    - Adjusted conditions to close modal 
+  - Removed the progress bar and adding a loading button 
 
 Things to Work on post Launch:
 1) Goals + Custom Resource?
@@ -169,3 +176,5 @@ Things to Work on post Launch:
 1) Nav Guards
 1) Refactor?
   - States and Status choices called on modal instead of parent 
+  - API Calls dispatch an action or make it a ultil function
+    - Instead of making an api request each time to verify the access token we could just check if its a *401* error

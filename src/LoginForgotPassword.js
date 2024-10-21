@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Toast from 'react-bootstrap/Toast'; 
-import axios from 'axios';
+import axios from './api/axiosConfig'
 
 export default function ForgotPassword(props){
     const baseUrl = useSelector((state)=>state.api_url.backendApiUrl)
