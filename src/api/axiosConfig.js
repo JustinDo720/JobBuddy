@@ -4,7 +4,7 @@ import { setNewAccessToken } from '../redux/RefreshToken/refresh_action'
 import { setLogout } from '../redux/Logout/logout_action';
 import store from '../redux/store'; // Import your Redux store
 
-const baseURL = 'http://localhost:8000'
+const baseURL = 'http://job-buddy-api.us-east-1.elasticbeanstalk.com/'
 // Create an Axios instance
 const axiosInstance = axios.create({
     baseURL,
@@ -23,10 +23,10 @@ const checkAndRefreshToken = async () => {
         return new_token; // Return the new token to set in the config
       } else if (!new_token) {
         // Handle refresh token expiration (e.g., logout)
-        store.dispatch(setLogout({}));
+        store.dispatch(setLogout({}))
+        window.location.href = '/'  // We cannot use navigate because this isn't a react component
       }
     }
-
     // This is because refreshToken util func returned our original access token
     return access_token; // Return the new token to set in the config
 };
@@ -41,6 +41,9 @@ axiosInstance.interceptors.request.use(
         return config; // Proceed with the request
     },
     (error) => {
+        // Upon an auth error (401) We'll just log out the user 
+        store.dispatch(setLogout({}));
+        window.location.href = '/'  // We cannot use navigate because this isn't a react component
         return Promise.reject(error); // Handle request error
     }
 );

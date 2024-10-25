@@ -90,13 +90,14 @@ function JobTableDetails(props){
                         Location:
                     </b> { renderDetails(job_details.location,"Location not mentioned.")}
                 </Container>
-                {job_details.job_images?
+                {/* We don't use the "in" operator because it checks for keys. Includes checks the values*/}
+                {Object.keys(job_details).includes('job_images')?
                     <Container style={{marginTop: '30px'}}>
                         <Row>
                             <Col md={6} lg={10} className="mx-auto">
                                 <Carousel pause='hover' fade data-bs-theme="dark" onMouseEnter={()=>setHoveringImg(true)} onMouseLeave={()=>setHoveringImg(false)}>
                                     {job_details.job_images.map(img=>(
-                                        <Carousel.Item interval={1000} >
+                                        <Carousel.Item interval={15000} >
                                             <Image 
                                                 src={img.job_img_resized}
                                                 className='carousel-image'

@@ -98,16 +98,17 @@ function JobTableAddJob(props){
         props.handleClose()
     }
 
-    const uploadImage = (img, job_id)=>{
+    const uploadImage = (img, job_id, final_img=false)=>{
         // Making a new FormData because this is dealing with files 
         const img_fd = new FormData();
         // This is going to making our img_fd = {job:id, job_img:img_obj}
         img_fd.append('job', job_id)
         img_fd.append('job_img', img)
 
-        axios.post(`${baseURL}/jobs/images/`,img_fd, {headers:{Authorization:`Bearer ${access_token}`,'Content-Type': 'multipart/form-data'}}).then((rep)=>{
-            
-
+        axios.post(`${baseURL}/jobs/images/`,img_fd, {headers:{Authorization:`Bearer ${access_token}`,'Content-Type': 'multipart/form-data'}}).then(()=>{
+            if(final_img){
+                closing_modal(true)
+            }
         })
     }
 
@@ -133,8 +134,10 @@ function JobTableAddJob(props){
             // We need to check if our user is submitting an image.
             // Once we post we should have the new jobs ID so we could use that to post our image 
             if(imgs.length > 0){
+                let counter = 0 
                 imgs.forEach(img=>{
-                    uploadImage(img, rep.data.id)
+                    counter += 1 
+                    uploadImage(img, rep.data.id, counter === imgs.length)
                 })
             } else {
                 closing_modal(true)

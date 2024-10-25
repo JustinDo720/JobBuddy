@@ -34,3 +34,41 @@
     height: 100%;
     object-fit: cover; /* Ensures the image covers the carousel item */
 }
+
+.modal-right .modal-dialog {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: 40px;
+  }
+  
+  .modal-left .modal-dialog {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    padding: 40px;
+  }
+
+.modal-modify-content {
+    background-color: #FFFFFF; /* Clean white background */
+  }
+  
+.modal-modify-header {
+    background-color: rgb(33, 36, 41);
+    color: #DC143C; /* Title color matching navbar */
+    border-bottom: none; /* Clean look */
+}
+
+.modal-modify-body {
+    color: #333; /* Dark text color for readability */
+    background-color: #F7F3F2;
+}
+
+.modal-modify-footer button {
+    background-color: #DC143C; /* Button matches title color */
+    color: #FFFFFF;
+}
+
+.modal-modify-footer button:hover {
+    background-color: #E07D30; /* Darker for hover effect */
+}

@@ -1,7 +1,7 @@
 import { SET_API_URL } from "./base_url_action";
 
 const initialStore = {
-    backendApiUrl: 'http://localhost:8000'
+    backendApiUrl: 'http://job-buddy-api.us-east-1.elasticbeanstalk.com/'
 }
 
 export const backendApiReducer = (state=initialStore, action) => {

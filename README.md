@@ -165,9 +165,28 @@ We need to make sure we hook up **redux** for state management. This allows us t
 8. Add Job Button close problem
   - [x] Add Button doesnt close modal
     - Adjusted conditions to close modal 
-  - Removed the progress bar and adding a loading button 
+  - Removed the progress bar and adding a loading button
+
+9. Work with loading when we're looking at loading data
+  - [x] Displaying Job is missing with search... if the data is loading make sure the table is loading
+  - [x] Loading during the editing modal (Used Placeholders)
+  - [ ] Editing images 
+  - [x] Adding new Images during the edit
+  - [x] Removing the Images during Edit
+    - Refactored code to call our api instead of using props because of reloading issues upon a CRUD operatation 
+
+10. Deployment
+  - [x] Make sure you deploy backend first (Dockerize Django)
+  - [x] Change up the base url 
+  - [ ] Deploy App Front-end with Firebase
+  - [ ] Add the new url to corsheader whitelist 
+  - [ ] Set up CI/CD for future deployments
+  - [ ] In views remember to update your REACT_URL 
+    - update your allowed headers 
 
 Things to Work on post Launch:
+1) Homepage to introduce app (landing page)
+1) Profile? or custom resources with dropdown button?
 1) Goals + Custom Resource?
 1) Charting 
 1) Reset Emails (Change message?)
