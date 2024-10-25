@@ -170,7 +170,6 @@ function JobTableEditJob(props){
     const submitForm = (e) => {
         e.preventDefault()
         
-        console.log(formData)
         axios.put(`${baseURL}/jobs/edit/${formData.id}/`, formData, {headers:{Authorization: `Bearer ${access_token}`}}).then(()=>{
             // props.refreshJobs()
             // props.toasting()
@@ -489,7 +488,7 @@ function JobTableEditJob(props){
         </Modal>
 
         {/* Modifying Job Images Modals */}
-        <JobTableEditImg show={editImg} handleClose={editSelImgModal} img_obj={imgInfo} refresh_jobs_details={refresh_job_details} toggle_alert={toggleEditImgAlert}></JobTableEditImg>
+        <JobTableEditImg show={editImg} handleClose={editSelImgModal} img_obj={imgInfo} job_id={formData.id} refresh_jobs={refresh_job_details} toggle_alert={toggleEditImgAlert}></JobTableEditImg>
         <JobTableDelImage show={delImg} handleClose={removeSelImgModal} img_obj={imgInfo} refresh_jobs_details={refresh_job_details} toggle_alert={toggleDelImgAlert}></JobTableDelImage>
         <JobTableAddImage show={addImg} handleClose={addImgModal} img_obj={imgInfo} job_id={formData.id} refresh_jobs={refresh_job_details} toggle_alert={toggleAddImgAlert}> </JobTableAddImage>
         </>

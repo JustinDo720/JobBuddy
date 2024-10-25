@@ -33,7 +33,6 @@ export default function JobTable(){
 
     const fetchJobs = async()=>{
         if(acc_activated){
-            console.log('Refreshing Jobs')
             setLoading(true)
             const rep = await axios.get(`${backendApiUrl}/users/details/${user_id}/jobs/`,{headers:{Authorization:`Bearer ${access_token}`}})
             setJobs(rep.data.user_jobs)   // this is an array of objects
@@ -91,7 +90,6 @@ export default function JobTable(){
 
     const changeShowEditing = (job_object)=>{
         setChosenEditingJob(job_object)
-        console.log(job_object)
         setShowEditing(!showEditing)
     }
     const closeShowEditing = ()=>setShowEditing(false)

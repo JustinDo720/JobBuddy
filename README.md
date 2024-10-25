@@ -170,7 +170,7 @@ We need to make sure we hook up **redux** for state management. This allows us t
 9. Work with loading when we're looking at loading data
   - [x] Displaying Job is missing with search... if the data is loading make sure the table is loading
   - [x] Loading during the editing modal (Used Placeholders)
-  - [ ] Editing images 
+  - [x] Editing images 
   - [x] Adding new Images during the edit
   - [x] Removing the Images during Edit
     - Refactored code to call our api instead of using props because of reloading issues upon a CRUD operatation 
@@ -187,6 +187,7 @@ We need to make sure we hook up **redux** for state management. This allows us t
 Things to Work on post Launch:
 1) Homepage to introduce app (landing page)
 1) Profile? or custom resources with dropdown button?
+1) Update the Job Summary 500 Characters isn't enough. GPTS to generate job notes?
 1) Goals + Custom Resource?
 1) Charting 
 1) Reset Emails (Change message?)
